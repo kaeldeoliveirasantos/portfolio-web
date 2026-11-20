@@ -1,0 +1,15 @@
+@import url("sobre-motion.css");
+.navlinks [aria-current=page]{color:#c8b6ff;position:relative}
+.navlinks [aria-current=page]:after{content:"";position:absolute;left:0;right:0;bottom:-12px;height:2px;background:linear-gradient(90deg,#4387ff,#a274ff)}
+.about-hero{min-height:610px;gap:50px}.about-hero .intro{max-width:455px}.about-hero .visual{height:480px}
+.portrait-caption{position:absolute;bottom:12px;right:0;padding:12px 20px;border-left:2px solid #9272fb;background:#0a1125c9;backdrop-filter:blur(12px);font-weight:700;font-size:16px}
+.portrait-caption span{display:block;color:#9caac5;font-weight:400;font-size:11px;letter-spacing:.5px}
+.kicker{color:#a28be3;font-size:11px;letter-spacing:2.5px;font-weight:700;margin:0 0 15px}
+.story{display:grid;grid-template-columns:1fr 1.2fr;gap:15px 65px}.story .kicker{grid-column:1/-1}.story h2{font-size:clamp(27px,3vw,37px);line-height:1.35}.story h2 span{color:#9e8bd2}
+.story-copy p{color:#aab2c5;margin:0 0 20px}
+.service-icon{display:grid;place-items:center;width:42px;height:42px;margin-bottom:22px;border:1px solid #8265c44a;border-radius:12px;background:linear-gradient(135deg,#28447b50,#592d7940);color:#bfaaff;font-size:25px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:25px;margin-top:35px}.steps article{border-top:1px solid #6e579052;padding-top:22px}.steps span{color:#9c7ee6;font-size:13px;letter-spacing:2px}.steps h3{font-size:17px;margin:13px 0 10px}.steps p{color:#a4aec2;font-size:14px}
+.principle{position:relative;text-align:center;padding:65px 20px;background:radial-gradient(ellipse at center,#4a317923,transparent 70%)}.principle h2{font-size:clamp(25px,3.5vw,39px);line-height:1.35}.principle p{max-width:520px;margin:20px auto 0;color:#aab2c5}.quote-mark{display:block;color:#9271d9;font:70px/1 Georgia,serif}
+.footer-inner{display:flex;justify-content:space-between;gap:18px}.footer-inner a{color:#bca1f0}
+@media(max-width:800px){.about-hero{gap:15px;padding-top:40px}.about-hero .visual{height:390px}.story{grid-template-columns:1fr;gap:24px}.story .kicker{margin-bottom:0}.steps{grid-template-columns:repeat(2,1fr)}.contact .primary{margin-top:12px}.footer-inner{flex-wrap:wrap}}
+@media(max-width:480px){.steps{grid-template-columns:1fr;gap:18px}.portrait-caption{right:5px}.principle{padding:45px 10px}}

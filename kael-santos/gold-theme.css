@@ -1,0 +1,33 @@
+:root{color-scheme:dark;--gold:#e2bd6d;--muted:#aaa59a}
+html,body{background:#080808;color:#f5f1e8}
+header{background:#0b0b0bed;border-bottom-color:#d9b86b1c}
+.brand{display:flex;align-items:center}
+.brand img{width:64px;height:64px;object-fit:contain}
+.navlinks{color:#bdb7aa}.navlinks a:hover,.navlinks [aria-current=page]{color:#f2d597}
+.navlinks [aria-current=page]:after{background:linear-gradient(90deg,#a57830,#f0d697)}
+.eyebrow,.intro,.story-copy p,.service p,.about p,.contact p,.principle p,.steps p{color:#b9b3a6}
+.gradient{background:linear-gradient(110deg,#ae7b29,#f4dda4 55%,#c49745);background-clip:text;color:transparent}
+.primary{background:linear-gradient(120deg,#aa792d,#edcf8b 65%,#d0a650);color:#17120a;font-weight:700;border:1px solid #f4dca078;box-shadow:0 8px 32px #b68a2620}
+.primary:hover{filter:brightness(1.08)}
+.outline{border-color:#947337;color:#e9d4aa;background:#d5ad5105}
+.social,.social a,footer{color:#aaa18e}
+.section,footer{border-color:#d7b86e1a}
+.sectionhead a,.cardfoot a,.footer-inner a,.kicker,.quote-mark,.steps span{color:#e2bd6d}
+.card,.service{background:#101010;border-color:#d4b46d24}
+.card:hover{border-color:#c5a35b;box-shadow:0 12px 35px #0004}
+.card p,.muted{color:#aaa497}.tag{background:#242017;color:#d5c59e}
+.logo-cover,.card:nth-child(n) .logo-cover{background:radial-gradient(ellipse at 50% 15%,#30291b,#101010 80%);border-color:#d8b86616}
+.logo-cover:before{border-color:#d8b8660c}
+.wordmark{color:#efe1bf}.wordmark small{color:#b7aa8c}
+.wordmark strong{color:#eddbb0;text-shadow:0 1px 0 #8b7547,0 2px 0 #5b4929,0 3px 0 #33291b,0 10px 14px #0009}
+.visual{background:radial-gradient(ellipse at 55% 55%,#b4882630,transparent 65%)}
+.visual:before{background-image:radial-gradient(#c7a45c70 1px,transparent 1px)}
+.visual:after{border-color:#ac843d55;border-left-color:#edcf8b99;box-shadow:0 0 55px #ad82241f}
+.hero-portrait{filter:drop-shadow(0 0 20px #bb91321a)}
+.available{background:#17140fdf;border-color:#b9995559;box-shadow:0 20px 50px #0006}
+.available b:before{background:#e8c574}.available p{color:#b7ad97}
+.service-icon{border-color:#b8995350;background:linear-gradient(135deg,#6b512633,#31261770);color:#e5c784}
+.story h2 span{color:#c5a15b}.steps article{border-color:#a1844145}
+.portrait-caption{border-color:#d6b66e;background:#17130dc9}.portrait-caption span{color:#baac8b}
+.principle{background:radial-gradient(ellipse at center,#b38a2920,transparent 70%)}
+a:focus-visible{outline-color:#edca80}

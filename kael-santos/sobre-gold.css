@@ -1,0 +1,29 @@
+/* Same black and champagne-gold palette as the homepage. */
+html,body{background:#11110f;color:#f2e5c7}
+body{background-image:radial-gradient(ellipse at 65% 12%,#6b563324,transparent 42%)}
+.wrap{width:min(1100px,91%)}
+.brand img{filter:none}
+.navlinks{color:#c5baa3}
+.navlinks a:hover,.navlinks [aria-current=page]{color:#f0d398}
+.navlinks [aria-current=page]:after{background:linear-gradient(90deg,#a9803c,#f2dbac)}
+.hero h1{color:#e5c582}
+.gradient{background:linear-gradient(110deg,#b48a43,#f1dab0 55%,#b99451);background-clip:text;color:transparent}
+.eyebrow,.kicker{color:#b4a68d}
+.intro,.story-copy p,.service p,.steps p,.principle p,.contact p{color:#bdb29d}
+.primary{background:linear-gradient(115deg,#a9803c,#f2dbac 50%,#b89651);color:#211b12;border-color:#d3b470;box-shadow:none}
+.outline{border-color:#a38952;color:#e3cea0}
+nav>.outline{background:linear-gradient(115deg,#b48a43,#f1dab0,#b99451);color:#221c12}
+.visual{background:radial-gradient(ellipse,#b49a5e14,transparent 70%)}
+.visual:after{border-color:#c1a4654d;border-left-color:transparent;box-shadow:none}
+.hero-portrait{filter:none;object-fit:contain;object-position:center bottom}
+.section{border-color:#b49c5b33}
+.service{background:linear-gradient(135deg,#252219,#1b1a16);border-color:#b49c5b40}
+.service-icon{background:#302b1e;border-color:#b49a5e55;color:#dcc48d}
+.story h2 span,.steps span,.quote-mark,.footer-inner a{color:#d4bb80}
+.steps article{border-color:#b49c5b40}
+.principle{background:radial-gradient(ellipse,#b38a2917,transparent 70%)}
+.portrait-caption{background:#211e16df;border-color:#bca66f77}
+.portrait-caption span{color:#bdb092}
+.contact{background:linear-gradient(120deg,#3d372866,#171712 55%);border-color:#bca66f77}
+footer{color:#8f836b;border-color:#b49c5b33}
+a:focus-visible{outline-color:#f0d396}

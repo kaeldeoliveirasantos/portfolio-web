@@ -1,0 +1,15 @@
+.projects-heading{padding:70px 0 50px;max-width:760px}.projects-heading h1{font-size:clamp(42px,6vw,68px)}.projects-heading h1 .gradient{font-size:inherit}.projects-heading>p:not(.eyebrow){color:#b9b3a6;max-width:600px}.text-link{color:#e2bd6d;font-size:14px}
+.navlinks [aria-current=page]{color:#efd39a}
+.project-row{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;padding:38px 0;border-top:1px solid #d7b86e20;align-items:center}
+.project-preview{height:300px;border:1px solid #d4b46d25;border-radius:15px;overflow:hidden;background:radial-gradient(ellipse at top,#302719,#101010 75%);position:relative;box-shadow:0 14px 35px #0003}
+.preview-brand{height:100%;padding:30px 30px 65px;display:grid;place-items:center}.preview-brand img{max-width:85%;max-height:205px;object-fit:contain;filter:drop-shadow(0 10px 15px #0006)}
+.preview-wordmark{font:600 31px/1.2 Georgia,serif;text-align:center;color:#ecd49b;max-width:280px}
+.preview-load,.preview-pending{position:absolute;bottom:0;left:0;right:0;width:100%;border:0;border-top:1px solid #d4b46d25;background:#14110ce8;color:#e6c681;padding:12px 18px;text-align:left;font-size:13px}.preview-load{cursor:pointer;display:flex;justify-content:space-between}.preview-load:hover{background:#302619}
+.preview-pending{color:#928976}
+.project-meta{display:flex;gap:16px;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#b39a69;margin-bottom:12px}.project-meta span:first-child{color:#e8ca84}
+.project-detail h2{font-size:29px;line-height:1.2}.project-detail p{color:#b6b0a3;font-size:15px;margin:18px 0 26px}.project-detail .primary{display:inline-block;font-size:13px;padding:10px 20px}
+.pending-status{display:inline-block;padding:8px 15px;border:1px solid #ad8b4a40;border-radius:5px;color:#b6a47f;font-size:13px}
+.preview-viewport{position:absolute;inset:0 0 46px;overflow:hidden;background:#fff}.preview-viewport iframe{width:1200px;height:800px;border:0;transform-origin:top left;pointer-events:none}
+.preview-hint{font-size:11px;color:#a89b80;margin:0}
+@media(max-width:800px){.project-row{gap:25px}.project-detail h2{font-size:24px}.project-preview{height:260px}}
+@media(max-width:600px){.projects-heading{padding:42px 0 32px}.project-row{grid-template-columns:1fr;gap:22px;padding:28px 0}.project-preview{height:280px}.project-detail h2{font-size:26px}.project-detail p{margin:12px 0 20px}}

@@ -1,0 +1,32 @@
+/* The four previews sit inside the photographed workstation displays. */
+.dashboard-hero{height:auto;aspect-ratio:1.5;perspective:1200px}
+.workspace{object-fit:fill}
+.dashboard-hero:after{background:linear-gradient(#0005,transparent 35%,transparent 82%,#080a0e)}
+.hero-titles,.profile{z-index:5}
+.monitor-screen{position:absolute;overflow:hidden;background:#10141c;border:1px solid #aaacaf66;box-shadow:0 0 8px #0008;isolation:isolate}
+.monitor-screen iframe{position:absolute;left:0;top:0;border:0;width:1200px;height:900px;transform-origin:top left;pointer-events:none;background:#111}
+.monitor-screen>a{position:absolute;inset:0;z-index:2;cursor:pointer}
+.monitor-screen>span{position:absolute;left:0;right:0;bottom:0;padding:3px 5px;background:#090b12e8;color:#e4c88b;text-align:center;font-size:clamp(5px,.6vw,8px);letter-spacing:.4px;z-index:3;pointer-events:none}
+.monitor-screen:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,#fff1,transparent 40%,#0001);pointer-events:none;z-index:1}
+.screen-left{left:8.35%;top:43.2%;width:24.4%;height:24.4%;clip-path:polygon(0 0,100% 4%,100% 94%,0 100%)}
+.screen-center{left:36.65%;top:40.7%;width:32.1%;height:27.2%;border-radius:2px}
+.screen-right{left:72.8%;top:43.4%;width:21.4%;height:24.5%;clip-path:polygon(0 3%,100% 0,100% 100%,0 95%)}
+.screen-laptop{left:37.5%;top:65.6%;width:21.9%;height:15.5%;border-radius:3px;transform:perspective(450px) rotateX(-3deg)}
+.dashboard{perspective:1400px;gap:12px}
+.panel{position:relative;border-top-color:#e4c98566;border-left-color:#b89b5b55;border-bottom:3px solid #05070b;box-shadow:inset 0 1px 0 #ffffff0c,2px 3px 0 #3b3424,4px 7px 0 #15171b,0 15px 24px #0007;transform:perspective(1000px) rotateX(1deg);transition:transform .25s,box-shadow .25s}
+.panel:before{content:"";position:absolute;left:10px;right:10px;top:0;height:1px;background:linear-gradient(90deg,transparent,#ead29c70,transparent);pointer-events:none}
+.panel:hover{transform:perspective(1000px) rotateX(0deg) translateY(-4px);box-shadow:inset 0 1px 0 #fff1,2px 4px 0 #4c3e24,4px 8px 0 #15171b,0 20px 28px #0009}
+.mini-project>b,.solution-grid b{background:linear-gradient(145deg,#4a3e26,#1b2029);border-top-color:#e5c57d99;box-shadow:1px 2px 0 #6b5730,2px 4px 0 #13151b,0 7px 10px #0006}
+.highlight img{filter:drop-shadow(1px 2px 0 #51452d) drop-shadow(0 6px 5px #0008);background:radial-gradient(#424038,#1b2029)}
+.bigstat{color:#e8ca85;text-shadow:0 1px #8a7038,0 2px #564725,0 3px #302a1d,0 7px 10px #0008}
+.segments i{box-shadow:inset 0 1px 1px #fff5,1px 3px 0 #49371c}
+.category i{box-shadow:0 2px 3px #0007,inset 0 1px #fff4}
+.gold-button,.primary{border:1px solid #efda9d70;box-shadow:0 2px 0 #785821,0 4px 0 #2b2113,0 8px 12px #0007;transition:transform .15s}
+.gold-button:active,.primary:active{transform:translateY(2px)}
+.project-preview{box-shadow:inset 0 1px #efd9a218,2px 4px 0 #3e3524,4px 7px 0 #16181c,0 15px 25px #0006;border-top-color:#cfb77966}
+.preview-brand img{filter:drop-shadow(1px 2px 0 #3e3a30) drop-shadow(0 10px 10px #0008)}
+.manifesto{margin-top:12px}.manifesto>span{filter:drop-shadow(0 3px 2px #0008)}
+@media(max-width:1050px){.dashboard-hero{height:auto;aspect-ratio:1.5}.hero-titles h1{font-size:clamp(35px,6.7vw,70px)}.profile{max-width:30%;gap:8px}.profile>img{width:65px;height:65px}.profile h2{font-size:14px}.profile p,.profile small{font-size:9px}.profile-links{font-size:9px;gap:8px}}
+@media(max-width:760px){.dashboard-hero{height:auto;aspect-ratio:1.1}.workspace{top:24%;height:76%;object-fit:fill}.hero-titles{top:10px;left:22px}.hero-titles h1{font-size:clamp(32px,7vw,52px)}.hero-titles p{font-size:8px}.profile{top:14px;right:18px;left:auto;max-width:35%;gap:7px}.profile>img{width:43px;height:43px}.profile h2{font-size:11px}.profile p{font-size:8px}.profile small,.profile-links{display:none}.screen-left{top:56.83%;height:18.54%}.screen-center{top:54.93%;height:20.67%}.screen-right{top:56.98%;height:18.62%}.screen-laptop{top:73.86%;height:11.78%}.dashboard{margin-top:-10px}}
+@media(max-width:480px){.dashboard-hero{height:auto}.hero-titles{left:17px}.hero-titles h1{font-size:31px}.profile{max-width:32%;right:12px;flex-direction:column;align-items:flex-start}.profile>img{width:38px;height:38px}.profile p{display:none}.hero-titles p{font-size:6px;letter-spacing:.5px}.monitor-screen>span{font-size:4px;padding:2px}}
+@media(prefers-reduced-motion:reduce){.panel,.gold-button,.primary{transition:none}.panel:hover{transform:none}}

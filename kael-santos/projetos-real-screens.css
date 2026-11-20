@@ -1,0 +1,6 @@
+.real-screens{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.screen-stage{position:relative;width:1536px;height:1024px;overflow:hidden}
+.real-screen{position:absolute;top:0;left:0;transform-origin:0 0;background:#101319;overflow:hidden;backface-visibility:hidden}
+.real-screen img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;filter:brightness(.86) contrast(1.04)}
+.real-screen:after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,#ffffff09,transparent 45%,#00000014);box-shadow:inset 0 0 8px #0008;pointer-events:none}
+@media(max-width:760px){.real-screens{top:24%;height:76%}}
