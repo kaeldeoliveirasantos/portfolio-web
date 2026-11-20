@@ -1,0 +1,1519 @@
+<html lang="pt-BR"><head><base href="https://cromacor.netlify.app/">
+<meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=8b08da51-1a6a-4aff-8a5f-545bb2a395b9
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Comparador de Cores</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0b14">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cores KS">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<style>
+:root{
+  --bg:#0a0b14; --card:#141726; --text:#f2f1f8; --muted:#8d8fa8;
+  --accent:#7c5cff; --accent2:#3fd0e0; --border:#252a42;
+  --good:#4fd393; --warn:#ff8a5c;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  min-height:100%;position:relative;overflow-x:hidden;
+}
+.bgGlow{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.bgGlow span{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:drift 16s ease-in-out infinite alternate}
+.bgGlow span:nth-child(1){width:420px;height:420px;top:-120px;left:-80px;background:radial-gradient(circle,var(--accent),transparent 70%)}
+.bgGlow span:nth-child(2){width:380px;height:380px;top:20%;right:-140px;background:radial-gradient(circle,var(--accent2),transparent 70%);animation-delay:-5s}
+.bgGlow span:nth-child(3){width:460px;height:460px;bottom:-160px;left:20%;background:radial-gradient(circle,#ff5ca8,transparent 70%);animation-delay:-10s;opacity:.35}
+@keyframes drift{0%{transform:translate(0,0) scale(1)} 100%{transform:translate(30px,40px) scale(1.15)}}
+.wrap{max-width:720px;margin:0 auto;padding:36px 20px 70px;position:relative;z-index:1}
+.brandHead{text-align:center;margin-bottom:28px}
+.badge{
+  width:52px;height:52px;border-radius:50%;margin:0 auto 14px;
+  background:linear-gradient(160deg,var(--accent2),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1.05rem;color:#0a0b14;
+}
+h1{font-size:1.75rem;margin:0 0 6px;font-weight:800}
+.sub{color:var(--accent2);font-size:.72rem;margin:0;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.card{
+  background:linear-gradient(180deg,rgba(20,23,38,.72),rgba(16,18,30,.8));
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;
+}
+.eyebrow{font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2);margin:0 0 4px}
+.eyebrow.center{text-align:center}
+h2{font-size:1.02rem;margin:0 0 14px;font-weight:700}
+h2.center{text-align:center}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.col{flex:1;min-width:200px}
+.photoRow{display:flex;gap:10px}
+.photoCol{flex:1;min-width:0}
+label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:6px;font-weight:600}
+input[type="text"],input[type="number"]{
+  width:100%;padding:10px 11px;border:1px solid var(--border);border-radius:9px;
+  background:#000;color:var(--text);font-size:.95rem
+}
+.camBtn{
+  display:block;width:100%;padding:12px;border:none;border-radius:11px;
+  background:linear-gradient(180deg,#232842,#1a1e33);color:var(--text);
+  font-size:.82rem;font-weight:700;cursor:pointer;
+  box-shadow:0 3px 0 #0d0f1c, 0 6px 16px rgba(0,0,0,.4);
+  transform:translateY(0);transition:transform .08s ease, box-shadow .08s ease;
+}
+.camBtn:active{transform:translateY(3px);box-shadow:0 0 0 #0d0f1c, 0 2px 6px rgba(0,0,0,.3)}
+.shotWrap{position:relative;margin-top:10px;display:none}
+.shotWrap.show{display:block}
+.shotWrap canvas{width:100%;border-radius:10px;border:1px solid var(--border);cursor:crosshair;display:block}
+.pickedRow{display:flex;align-items:center;gap:8px;margin-top:8px}
+.pickedDot{width:20px;height:20px;border-radius:6px;border:1px solid var(--border)}
+.hint{font-size:.72rem;color:var(--muted);margin-top:10px;line-height:1.5}
+.seg{display:flex;gap:6px;background:#0c0e1b;border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:14px}
+.seg button{flex:1;border:none;border-radius:9px;padding:9px 6px;background:transparent;color:var(--muted);font-size:.8rem;font-weight:700;cursor:pointer}
+.seg button.on{background:linear-gradient(180deg,#3a3f66,#2a2f52);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.chips{display:flex;gap:8px;margin-bottom:10px}
+.chip{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 6px;border:1.5px solid var(--border);border-radius:11px;background:#0c0e1b;color:var(--muted);font-size:.78rem;font-weight:700;cursor:pointer}
+.chip.on{color:var(--text);border-color:var(--accent2);background:#141a2e;box-shadow:0 0 0 3px rgba(63,208,224,.12)}
+.chip[data-alvo="A"].on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,92,255,.16)}
+.chip .cdot{width:12px;height:12px;border-radius:50%;border:2px solid #fff;flex:none}
+.sizeRow{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:.76rem;color:var(--muted);font-weight:600}
+.sizeRow input[type=range]{flex:1;accent-color:var(--accent2)}
+.sizeRow span:last-child{min-width:34px;text-align:right;color:var(--text)}
+.readRow{display:flex;align-items:center;gap:9px;margin-top:8px;padding:9px 10px;border:1px solid var(--border);border-radius:10px;background:#0c0e1b;font-size:.78rem}
+.readRow .pickedDot{flex:none}
+.readRow small{display:block;color:var(--muted);font-size:.68rem;margin-top:1px}
+.readRow .ur-bom{color:var(--good)} .readRow .ur-med{color:#ffc857} .readRow .ur-ruim{color:var(--warn)}
+.analyzeBtn{
+  display:block;width:100%;margin-top:16px;padding:15px;border:none;border-radius:13px;
+  background:linear-gradient(180deg,var(--accent2),var(--accent));color:#0a0b14;
+  font-size:.92rem;font-weight:800;cursor:pointer;
+  box-shadow:0 4px 0 #4a35b8, 0 10px 24px rgba(124,92,255,.4);
+  transform:translateY(0);transition:transform .08s ease, box-shadow .08s ease;
+}
+.analyzeBtn:active{transform:translateY(4px);box-shadow:0 0 0 #4a35b8, 0 4px 12px rgba(124,92,255,.3)}
+.secondaryBtn{
+  display:block;width:100%;margin-top:10px;padding:11px;border:none;border-radius:10px;
+  background:linear-gradient(180deg,#181b2e,#12141f);color:var(--muted);
+  font-size:.8rem;font-weight:600;cursor:pointer;
+  box-shadow:0 3px 0 #05060c, 0 6px 14px rgba(0,0,0,.35);
+  transform:translateY(0);transition:transform .08s ease, box-shadow .08s ease;
+}
+.secondaryBtn:active{transform:translateY(3px);box-shadow:0 0 0 #05060c, 0 2px 6px rgba(0,0,0,.3)}
+.metrics{display:flex;gap:10px;flex-wrap:wrap}
+.metric{flex:1;min-width:85px;background:#000;border:1px solid var(--border);border-radius:11px;padding:12px 8px;text-align:center}
+.metric .v{font-size:1.2rem;font-weight:800}
+.metric .l{font-size:.66rem;color:var(--muted);margin-top:3px}
+.deltaE-ok{color:var(--good)}
+.deltaE-bad{color:var(--warn)}
+.suggestions{display:flex;flex-direction:column;gap:8px}
+.sugg{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1px solid var(--border);border-radius:10px;background:#000}
+.dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.sugg .amt{margin-left:auto;font-weight:800;color:var(--accent2)}
+.note{font-size:.75rem;color:var(--muted);margin-top:12px;line-height:1.5}
+.tutorial,.calibrateBox{margin-top:12px;padding:14px;border:1px solid var(--border);border-radius:11px;background:#000}
+.tutorial ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:9px}
+.tutorial li{font-size:.83rem;line-height:1.5;color:var(--muted)}
+.tutorial li b{color:var(--text)}
+.calResult{margin-top:12px;font-size:1.3rem;font-weight:800;color:var(--good);text-align:center;display:none}
+.calResult .lbl{display:block;font-size:.68rem;font-weight:700;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em}
+.footer{text-align:center;margin-top:24px;color:var(--muted);font-size:.7rem}
+.lnk{color:#3fd0e0;text-decoration:underline;text-underline-offset:2px}
+.infoIcon{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;border-radius:50%;border:1px solid var(--muted);
+  background:none;color:var(--muted);font-size:.68rem;font-weight:700;
+  cursor:pointer;vertical-align:middle;margin-left:4px;padding:0;line-height:1;
+}
+.infoIcon:active{opacity:.6}
+.miniModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1100;align-items:center;justify-content:center;padding:20px}
+.miniModal .box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;max-width:360px;width:100%}
+@media print{
+  body *{visibility:hidden}
+  #reportTemplate, #reportTemplate *{visibility:visible}
+  #reportTemplate{position:absolute;left:0;top:0;width:100%;box-shadow:none}
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="bgGlow"><span></span><span></span><span></span></div>
+<div id="lockScreen" style="display:none;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:20px;text-align:center">
+  <img src="logo-croma.png" alt="CROMA" width="120" height="115" style="width:120px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 8px 28px rgba(124,92,255,.45))">
+  <h1 style="margin:0">Bloqueado</h1>
+  <p class="sub" style="text-transform:none;letter-spacing:normal;font-weight:500;color:var(--muted)">Use sua digital, rosto ou PIN do aparelho para entrar.</p>
+  <button type="button" class="analyzeBtn" id="unlockBtn" style="max-width:280px">🔓 Desbloquear</button>
+  <button type="button" class="secondaryBtn" id="unlockFallbackBtn" style="max-width:280px">Entrar com e-mail e senha</button>
+</div>
+
+<div id="loginGate" style="min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:20px;text-align:center">
+  <img src="logo-croma.png" alt="CROMA" width="120" height="115" style="width:120px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 8px 28px rgba(124,92,255,.45))">
+  <h1 style="margin:0">Acesso restrito</h1>
+  <p class="sub" style="text-transform:none;letter-spacing:normal;font-weight:500;color:var(--muted)">Entre com a conta autorizada por Kael Santos para usar o app.</p>
+  <button type="button" class="analyzeBtn" id="loginBtn" style="max-width:280px">Entrar</button>
+  <p class="hint" style="max-width:300px">Primeiro acesso, sem senha ainda? Toque em Entrar e procure o link "Esqueceu sua senha?" dentro da caixa — ele te envia um e-mail pra criar a senha na hora. (Se você recebeu um e-mail de convite, o link de lá também funciona.)</p>
+  <p class="hint" style="max-width:300px;margin-top:0">Ao entrar, você concorda com os <a class="lnk" href="/termos">Termos de Uso</a> e a <a class="lnk" href="/privacidade">Política de Privacidade</a>.</p>
+</div>
+
+<div class="wrap" id="appWrap" style="display:none">
+
+  <div id="installBanner" style="display:none;background:linear-gradient(115deg,var(--accent2),var(--accent));color:#0a0b14;border-radius:12px;padding:12px 16px;margin-bottom:16px;align-items:center;justify-content:space-between;gap:10px">
+    <span style="font-size:.82rem;font-weight:700">Instale este app no seu celular</span>
+    <button type="button" id="installBtn" style="background:#0a0b14;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-weight:700;font-size:.78rem;cursor:pointer">Instalar</button>
+  </div>
+  <p id="iosHint" style="display:none;font-size:.72rem;color:var(--muted);text-align:center;margin:-6px 0 16px">
+    No iPhone: toque em compartilhar (□↑) e depois em "Adicionar à Tela de Início"
+  </p>
+
+  <a href="./acerto-de-cor.apk" download="" id="downloadApkBtn" class="camBtn" style="display:block;text-align:center;margin-bottom:16px;text-decoration:none">⬇️ Baixar o app (.apk)</a>
+
+  <div class="brandHead">
+    <img src="logo-croma.png" alt="CROMA" width="84" height="80" style="width:84px;height:auto;display:block;margin:0 auto 12px;filter:drop-shadow(0 6px 20px rgba(124,92,255,.45))">
+    <h1>Sistema de Correção de Cor</h1>
+    <p class="sub">Feito por Kael Santos</p>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow center">01 · Captura</p>
+    <h2 class="center">Fotos</h2>
+    <div class="seg" id="modoSeg">
+      <button type="button" data-modo="unica" class="on">📸 Foto única</button>
+      <button type="button" data-modo="duas">2 fotos</button>
+    </div>
+    <div id="unicaBox" style="display: block;">
+      <button type="button" class="camBtn" id="unicaBtn">📷 Foto com padrão e amostra</button>
+      <input type="file" id="unicaFoto" accept="image/*" capture="environment" style="display:none">
+      <div class="shotWrap" id="unicaShotWrap">
+        <div class="chips" id="unicaChips" style="margin-top:2px">
+          <button type="button" class="chip on" data-alvo="P"><span class="cdot" style="background:#3fd0e0"></span>Marcar padrão</button>
+          <button type="button" class="chip" data-alvo="A"><span class="cdot" style="background:#7c5cff"></span>Marcar amostra</button>
+        </div>
+        <canvas id="unicaCanvas"></canvas>
+        <div class="sizeRow"><span>Círculo</span><input type="range" id="unicaSize" min="1" max="12" step="0.5" value="3"><span id="unicaSizeVal">3%</span></div>
+        <div class="readRow" id="unicaReadP" style="display:none"><div class="pickedDot" id="unicaDotP"></div><div><span id="unicaTxtP"></span><small id="unicaUniP"></small></div></div>
+        <div class="readRow" id="unicaReadA" style="display:none"><div class="pickedDot" id="unicaDotA"></div><div><span id="unicaTxtA"></span><small id="unicaUniA"></small></div></div>
+      </div>
+      <p class="hint">Coloque o padrão e a amostra lado a lado, na mesma foto, com a mesma luz e sem flash. Toque em “Marcar padrão” e depois na cor do padrão; repita com a amostra. Ajuste o tamanho do círculo pra caber só dentro da cor, longe de reflexo e sombra.</p>
+    </div>
+    <div id="duasBox" style="display:none">
+    <div class="photoRow">
+      <div class="photoCol">
+        <label>Padrão</label>
+        <button type="button" class="camBtn" id="padraoBtn">📷 Foto do padrão</button>
+        <input type="file" id="padraoFoto" accept="image/*" capture="environment" style="display:none">
+        <div class="shotWrap" id="padraoShotWrap">
+          <canvas id="padraoCanvas"></canvas>
+          <div class="pickedRow" id="padraoPickedRow" style="display:none">
+            <div class="pickedDot" id="padraoPickedDot"></div>
+            <span id="padraoPickedText"></span>
+          </div>
+        </div>
+      </div>
+      <div class="photoCol">
+        <label>Amostra</label>
+        <button type="button" class="camBtn" id="amostraBtn">📷 Foto da amostra</button>
+        <input type="file" id="amostraFoto" accept="image/*" capture="environment" style="display:none">
+        <div class="shotWrap" id="amostraShotWrap">
+          <canvas id="amostraCanvas"></canvas>
+          <div class="pickedRow" id="amostraPickedRow" style="display:none">
+            <div class="pickedDot" id="amostraPickedDot"></div>
+            <span id="amostraPickedText"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="hint">Tire a foto do padrão e da amostra. Toque no ponto exato da cor em cada foto para mais precisão — senão o botão usa a cor média da foto inteira. Dica: com 2 fotos o celular ajusta a luz de cada uma, e isso aumenta o erro. Prefira a foto única.</p>
+    </div>
+    <input type="text" id="padraoHex" value="" style="display:none">
+    <input type="text" id="amostraHex" value="" style="display:none">
+    <button type="button" class="analyzeBtn" id="analyzeBtn">Analisar</button>
+    <p class="note" id="statusMsg" style="display:none"></p>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">02 · Análise</p>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h2 style="margin-bottom:0">Diferença</h2>
+      <button type="button" id="gearBtn" aria-label="Ajustar tolerância" style="background:none;border:1px solid var(--border);border-radius:8px;width:32px;height:32px;font-size:1rem;cursor:pointer;color:var(--text)">⚙️</button>
+    </div>
+    <div class="metrics" style="margin-top:14px">
+      <div class="metric"><div class="v" id="mDE">–</div><div class="l">ΔE00 (CIEDE2000)</div></div>
+      <div class="metric"><div class="v" id="mL">–</div><div class="l">ΔL claro/escuro</div></div>
+      <div class="metric"><div class="v" id="mA">–</div><div class="l">Δa verde/vermelho</div></div>
+      <div class="metric"><div class="v" id="mB">–</div><div class="l">Δb azul/amarelo</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">03 · Correção</p>
+    <h2>Sugestão de Acerto <button type="button" class="infoIcon" data-info="correcao" aria-label="O que é isso?">?</button></h2>
+    <div class="suggestions" id="sugg"></div>
+    <p class="note">A sugestão combina as duas tintas cujo matiz mais se aproxima da direção necessária (amarelo benzidina, laca-C, rubi, violeta fanal, ftálico azul, ftálico verde). Para claro/escuro usa verniz de corte (clarear) ou preto (escurecer). Os vetores de cada tinta são uma estimativa de partida — calibre com seus lotes reais.</p>
+    <div id="pendingBox" style="display:none;margin-top:14px"></div>
+  </div>
+
+  <div class="card" id="reportCard" style="display:none">
+    <p class="eyebrow">Relatório</p>
+    <h2>Gerar Relatório</h2>
+    <p class="note" style="margin-top:0">Gera um relatório com as fotos, valores Lab, ΔE (aprovado/reprovado) e dados do job — em PDF (pra imprimir) ou como imagem (pra mandar no WhatsApp).</p>
+    <div class="row">
+      <div class="col">
+        <label>Nome do cliente</label>
+        <input type="text" id="repCliente" placeholder="ex: Embalagens XYZ" maxlength="80" autocomplete="off">
+      </div>
+      <div class="col">
+        <label>Nº da bobina</label>
+        <input type="text" id="repBobina" placeholder="ex: 10452" maxlength="30" autocomplete="off">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label>Turno</label>
+        <select id="repTurno" style="width:100%;padding:10px 11px;border:1px solid var(--border);border-radius:9px;background:#000;color:var(--text);font-size:.95rem">
+          <option value="Manhã">Manhã</option>
+          <option value="Tarde">Tarde</option>
+          <option value="Noite">Noite</option>
+        </select>
+      </div>
+    </div>
+    <button type="button" class="analyzeBtn" id="genReportBtn">📄 Gerar Relatório</button>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">04 · Parâmetros</p>
+    <h2>Lote <button type="button" class="infoIcon" data-info="parametros" aria-label="O que é isso?">?</button></h2>
+    <div class="row">
+      <div class="col">
+        <label>Peso do lote (kg)</label>
+        <input type="number" id="peso" value="10" min="0.1" step="0.1">
+      </div>
+      <div class="col">
+        <label>Sensibilidade (g/kg por unidade)</label>
+        <input type="number" id="sens" value="4" min="0.1" step="0.1">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label>Tolerância de aprovação (ΔE00)</label>
+        <input type="number" id="tolerancia" value="1.5" min="0.1" step="0.1">
+      </div>
+    </div>
+    <p class="calResult" id="autoCalInfo" style="display:none;font-size:.95rem;color:var(--accent2)"></p>
+    <button type="button" class="secondaryBtn" id="resetCalBtn" style="display:none">Zerar aprendizado de sensibilidade</button>
+    <p class="note">Fotos são sensíveis à iluminação: tire padrão e amostra sob a mesma luz. Comece com a sensibilidade padrão, aplique a sugestão, meça a amostra corrigida e recalibre com os botões abaixo.</p>
+
+    <button type="button" class="secondaryBtn" id="howToBtn">Como calcular a sensibilidade</button>
+    <div class="tutorial" id="tutorialBox" style="display:none">
+      <ol>
+        <li><b>Escolha um lote de teste</b> — amostra com desvio perceptível. Pese esse lote (ex: 1kg).</li>
+        <li><b>Fotografe padrão e amostra antes de mexer</b> — anote o ΔE mostrado.</li>
+        <li><b>Adicione uma quantidade conhecida de tinta</b> — pese exatamente e misture bem.</li>
+        <li><b>Fotografe a amostra corrigida</b> — rode a análise de novo e anote o novo ΔE.</li>
+        <li><b>Calcule</b> — sensibilidade = gramas ÷ (queda do ΔE × peso do lote em kg).</li>
+        <li><b>Repita com 2 ou 3 lotes</b> e tire a média.</li>
+      </ol>
+    </div>
+
+    <button type="button" class="secondaryBtn" id="calibrateBtn">Calibrar sensibilidade</button>
+    <div class="calibrateBox" id="calibrateBox" style="display:none">
+      <div class="row">
+        <div class="col">
+          <label>Peso do lote de teste (kg)</label>
+          <input type="number" id="calPeso" value="1" min="0.01" step="0.01">
+        </div>
+        <div class="col">
+          <label>Gramas adicionadas (g)</label>
+          <input type="number" id="calGramas" min="0" step="0.1">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label>ΔE antes</label>
+          <input type="number" id="calDeAntes" step="0.1">
+        </div>
+        <div class="col">
+          <label>ΔE depois</label>
+          <input type="number" id="calDeDepois" step="0.1">
+        </div>
+      </div>
+      <button type="button" class="analyzeBtn" id="calcSensBtn">Calcular sensibilidade</button>
+      <p class="calResult" id="calResult"></p>
+    </div>
+  </div>
+
+  <p class="footer">KAEL SANTOS · SISTEMA DE CORREÇÃO DE COR</p>
+  <p class="footer" style="margin-top:6px;opacity:.7">Este app não substitui um espectrofotômetro.</p>
+  <p class="footer" style="margin-top:10px"><a class="lnk" href="/privacidade">Privacidade</a> · <a class="lnk" href="/termos">Termos de Uso</a> · <a class="lnk" href="/privacidade#contato">Contato</a></p>
+  <p class="footer" style="margin-top:10px"><button type="button" class="secondaryBtn" id="wipeDataBtn" style="max-width:280px;font-size:.74rem">🗑️ Apagar dados deste aparelho</button></p>
+  <p class="footer" style="margin-top:10px" id="loggedInAs"></p>
+  <div id="biometricOffer" class="card" style="display:none;text-align:center;margin-top:14px">
+    <p class="note" style="margin-top:0">Ativar entrada por digital/rosto/PIN neste aparelho, sem precisar digitar email e senha da próxima vez?</p>
+    <button type="button" class="analyzeBtn" id="biometricSetupBtn">Ativar biometria</button>
+    <button type="button" class="secondaryBtn" id="biometricDismissBtn">Agora não</button>
+  </div>
+  <button type="button" class="secondaryBtn" id="logoutBtn" style="max-width:200px;margin:8px auto 0">Sair</button>
+</div>
+
+<div id="reportModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;overflow-y:auto;padding:20px">
+  <div style="max-width:420px;margin:0 auto">
+    <div id="reportTemplate" style="background:#ffffff;color:#111;border-radius:12px;padding:24px;font-family:'Inter',-apple-system,sans-serif">
+      <div style="text-align:center;border-bottom:3px solid #7c5cff;padding-bottom:14px;margin-bottom:16px">
+        <div style="font-weight:800;font-size:1.1rem;color:#111">Relatório de Análise de Cor</div>
+      </div>
+      <div style="font-size:.78rem;color:#666;margin-bottom:8px" id="reportDate"></div>
+      <table style="width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:16px;background:#f9f9fb;border-radius:8px;overflow:hidden">
+        <tbody id="reportJobTable"></tbody>
+      </table>
+      <div style="display:flex;gap:10px;margin-bottom:16px">
+        <div style="flex:1;text-align:center">
+          <div style="font-size:.7rem;color:#666;font-weight:700;margin-bottom:4px">PADRÃO</div>
+          <img id="reportImgPadrao" style="width:100%;border-radius:8px;border:1px solid #ddd;display:block">
+        </div>
+        <div style="flex:1;text-align:center">
+          <div style="font-size:.7rem;color:#666;font-weight:700;margin-bottom:4px">AMOSTRA</div>
+          <img id="reportImgAmostra" style="width:100%;border-radius:8px;border:1px solid #ddd;display:block">
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:16px">
+        <thead>
+          <tr style="border-bottom:2px solid #eee">
+            <th style="text-align:left;padding:6px 4px;color:#666">Lab</th>
+            <th style="text-align:center;padding:6px 4px;color:#666">Padrão</th>
+            <th style="text-align:center;padding:6px 4px;color:#666">Amostra</th>
+          </tr>
+        </thead>
+        <tbody id="reportLabTable"></tbody>
+      </table>
+      <div style="background:#f5f4fb;border-radius:10px;padding:14px;text-align:center">
+        <div style="font-size:.68rem;color:#666;font-weight:700;text-transform:uppercase;letter-spacing:.05em">ΔE00 (CIEDE2000)</div>
+        <div style="font-size:1.6rem;font-weight:800;color:#5a3fd6" id="reportDE"></div>
+        <div style="font-size:.75rem;color:#444;margin-top:4px" id="reportDeltas"></div>
+        <div style="display:inline-block;margin-top:10px;padding:5px 16px;border-radius:999px;font-weight:800;font-size:.78rem;letter-spacing:.04em" id="reportBadge"></div>
+      </div>
+      <div style="text-align:center;margin-top:16px;font-size:.65rem;color:#999">Este relatório não substitui um espectrofotômetro.</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button type="button" class="analyzeBtn" id="reportPrintBtn" style="margin-top:0">🖨️ Imprimir</button>
+      <button type="button" class="analyzeBtn" id="reportShareBtn" style="margin-top:0;background:linear-gradient(115deg,#25D366,#128C7E)">📲 Enviar via WhatsApp</button>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <button type="button" class="secondaryBtn" id="reportDownloadPdfBtn" style="margin-top:0">⬇️ Baixar PDF</button>
+      <button type="button" class="secondaryBtn" id="reportDownloadImgBtn" style="margin-top:0">⬇️ Baixar Imagem</button>
+    </div>
+    <button type="button" class="secondaryBtn" id="reportCloseBtn">Fechar</button>
+  </div>
+</div>
+
+<div class="miniModal" id="whatsNewModal">
+  <div class="box">
+    <h2 style="margin-bottom:10px">🆕 Novidades desta atualização</h2>
+    <ul class="note" id="whatsNewBody" style="margin-top:0;font-size:.85rem;line-height:1.6;padding-left:18px;display:flex;flex-direction:column;gap:8px"></ul>
+    <button type="button" class="analyzeBtn" id="whatsNewCloseBtn">Entendi</button>
+  </div>
+</div>
+
+<div class="miniModal" id="infoModal">
+  <div class="box">
+    <h2 id="infoModalTitle" style="margin-bottom:10px"></h2>
+    <p class="note" id="infoModalBody" style="margin-top:0;font-size:.85rem;line-height:1.6"></p>
+    <button type="button" class="secondaryBtn" id="infoModalCloseBtn">Fechar</button>
+  </div>
+</div>
+
+<div class="miniModal" id="gearModal">
+  <div class="box">
+    <h2 style="margin-bottom:10px">⚙️ Tolerância de aprovação</h2>
+    <p class="note" style="margin-top:0;font-size:.85rem">Defina o ΔE00 máximo que sua empresa aceita como aprovado. Toda análise e relatório vão usar esse valor pra decidir aprovado/reprovado.</p>
+    <label>Tolerância (ΔE00)</label>
+    <input type="number" id="gearTolerancia" min="0.1" step="0.1">
+    <button type="button" class="analyzeBtn" id="gearSaveBtn">Salvar</button>
+    <button type="button" class="secondaryBtn" id="gearCloseBtn">Fechar</button>
+  </div>
+</div>
+
+<script>
+// ---- Auto-calibração ----
+const CAL_KEY = 'comparadorCores_calHistory';
+const PENDING_KEY = 'comparadorCores_pending';
+
+function loadCalHistory(){ try{ return JSON.parse(localStorage.getItem(CAL_KEY)||'[]'); }catch(e){ return []; } }
+function saveCalHistory(arr){ try{ localStorage.setItem(CAL_KEY, JSON.stringify(arr)); }catch(e){} }
+function weightedSensitivity(history){
+  if(!history.length) return null;
+  let totalW=0, sum=0;
+  history.forEach((h,i)=>{ const w = i+1; sum += h.sens*w; totalW += w; });
+  return sum/totalW;
+}
+function loadPending(){ try{ return JSON.parse(localStorage.getItem(PENDING_KEY)||'null'); }catch(e){ return null; } }
+function savePending(p){ try{ localStorage.setItem(PENDING_KEY, JSON.stringify(p)); }catch(e){} }
+function clearPending(){ try{ localStorage.removeItem(PENDING_KEY); }catch(e){} }
+
+function registerCalibration(sens, gramas, peso, antes, depois){
+  const hist = loadCalHistory();
+  hist.push({ sens, gramas, peso, antes, depois, date: Date.now() });
+  if(hist.length > 30) hist.shift();
+  saveCalHistory(hist);
+  const media = weightedSensitivity(hist);
+  els.sens.value = media.toFixed(2);
+  renderAutoCalInfo();
+}
+
+function renderAutoCalInfo(){
+  const hist = loadCalHistory();
+  const box = document.getElementById('autoCalInfo');
+  const resetBtn = document.getElementById('resetCalBtn');
+  if(!hist.length){ box.style.display = 'none'; resetBtn.style.display = 'none'; return; }
+  const media = weightedSensitivity(hist);
+  box.style.display = 'block';
+  resetBtn.style.display = 'block';
+  box.innerHTML = '<span class="lbl">Calibração automática</span>' +
+    media.toFixed(2) + ' g/kg · baseado em ' + hist.length + (hist.length===1?' medição':' medições');
+}
+
+function renderPendingPrompt(pendingArg){
+  const pending = pendingArg !== undefined ? pendingArg : loadPending();
+  const box = document.getElementById('pendingBox');
+  if(!pending){ box.style.display = 'none'; box.innerHTML=''; return; }
+  box.style.display = 'block';
+  box.innerHTML = `
+    <p class="note" style="margin-top:0">Essa amostra é a correção aplicada depois da sugestão anterior?</p>
+    <div class="row">
+      <div class="col">
+        <label>Gramas totais adicionadas</label>
+        <input type="number" id="pendingGramas" min="0" step="0.1">
+      </div>
+    </div>
+    <button type="button" class="analyzeBtn" id="pendingConfirmBtn">Confirmar e calibrar automaticamente</button>
+    <button type="button" class="secondaryBtn" id="pendingDismissBtn">Não, é outra amostra</button>
+  `;
+  document.getElementById('pendingConfirmBtn').addEventListener('click', ()=>{
+    const gramas = parseFloat(document.getElementById('pendingGramas').value);
+    if(!(gramas >= 0)) return;
+    const labP = rgbToLab(hexToRgb(els.pHex.value));
+    const labA = rgbToLab(hexToRgb(els.aHex.value));
+    const depois = deltaE2000(labA, labP);
+    if(pending.deAntes > depois){
+      const sens = gramas / ((pending.deAntes - depois) * pending.peso);
+      registerCalibration(sens, gramas, pending.peso, pending.deAntes, depois);
+    }
+    clearPending();
+    renderPendingPrompt();
+  });
+  document.getElementById('pendingDismissBtn').addEventListener('click', ()=>{
+    clearPending();
+    renderPendingPrompt();
+  });
+}
+
+function hexToRgb(hex){
+  hex = hex.replace('#','').trim();
+  if(hex.length===3) hex = hex.split('').map(c=>c+c).join('');
+  const n = parseInt(hex,16);
+  return {r:(n>>16)&255, g:(n>>8)&255, b:n&255};
+}
+function rgbToLab({r,g,b}){
+  let [R,G,B] = [r,g,b].map(v=>{
+    v/=255;
+    return v>0.04045 ? Math.pow((v+0.055)/1.055,2.4) : v/12.92;
+  });
+  let X = R*0.4124+G*0.3576+B*0.1805;
+  let Y = R*0.2126+G*0.7152+B*0.0722;
+  let Z = R*0.0193+G*0.1192+B*0.9505;
+  X/=0.95047; Z/=1.08883;
+  const f = t => t>0.008856 ? Math.cbrt(t) : (7.787*t + 16/116);
+  const fx=f(X), fy=f(Y), fz=f(Z);
+  return { L:116*fy-16, a:500*(fx-fy), b:200*(fy-fz) };
+}
+
+// CIEDE2000 — distância perceptual (Sharma, Wu, Dalal 2005)
+function deltaE2000(lab1, lab2){
+  const {L:L1,a:a1,b:b1} = lab1;
+  const {L:L2,a:a2,b:b2} = lab2;
+  const toRad = d => d*Math.PI/180;
+  const toDeg = r => r*180/Math.PI;
+
+  const C1 = Math.sqrt(a1*a1+b1*b1);
+  const C2 = Math.sqrt(a2*a2+b2*b2);
+  const Cbar = (C1+C2)/2;
+  const G = 0.5*(1 - Math.sqrt(Math.pow(Cbar,7)/(Math.pow(Cbar,7)+Math.pow(25,7))));
+  const a1p = a1*(1+G);
+  const a2p = a2*(1+G);
+  const C1p = Math.sqrt(a1p*a1p+b1*b1);
+  const C2p = Math.sqrt(a2p*a2p+b2*b2);
+  let h1p = Math.atan2(b1,a1p); h1p = h1p>=0 ? toDeg(h1p) : toDeg(h1p)+360;
+  let h2p = Math.atan2(b2,a2p); h2p = h2p>=0 ? toDeg(h2p) : toDeg(h2p)+360;
+
+  const dLp = L2-L1;
+  const dCp = C2p-C1p;
+  let dhp;
+  if(C1p*C2p===0) dhp=0;
+  else if(Math.abs(h2p-h1p)<=180) dhp = h2p-h1p;
+  else if(h2p-h1p>180) dhp = h2p-h1p-360;
+  else dhp = h2p-h1p+360;
+  const dHp = 2*Math.sqrt(C1p*C2p)*Math.sin(toRad(dhp/2));
+
+  const Lbarp = (L1+L2)/2;
+  const Cbarp = (C1p+C2p)/2;
+  let hbarp;
+  if(C1p*C2p===0) hbarp = h1p+h2p;
+  else if(Math.abs(h1p-h2p)<=180) hbarp=(h1p+h2p)/2;
+  else if((h1p+h2p)<360) hbarp=(h1p+h2p+360)/2;
+  else hbarp=(h1p+h2p-360)/2;
+
+  const T = 1 - 0.17*Math.cos(toRad(hbarp-30)) + 0.24*Math.cos(toRad(2*hbarp))
+            + 0.32*Math.cos(toRad(3*hbarp+6)) - 0.20*Math.cos(toRad(4*hbarp-63));
+  const dTheta = 30*Math.exp(-Math.pow((hbarp-275)/25,2));
+  const RC = 2*Math.sqrt(Math.pow(Cbarp,7)/(Math.pow(Cbarp,7)+Math.pow(25,7)));
+  const SL = 1 + (0.015*Math.pow(Lbarp-50,2))/Math.sqrt(20+Math.pow(Lbarp-50,2));
+  const SC = 1 + 0.045*Cbarp;
+  const SH = 1 + 0.015*Cbarp*T;
+  const RT = -Math.sin(toRad(2*dTheta))*RC;
+
+  const termL = dLp/SL;
+  const termC = dCp/SC;
+  const termH = dHp/SH;
+  return Math.sqrt(termL*termL + termC*termC + termH*termH + RT*termC*termH);
+}
+
+let lastResult = null;
+
+const els = {
+  pHex: document.getElementById('padraoHex'),
+  aHex: document.getElementById('amostraHex'),
+  peso: document.getElementById('peso'),
+  sens: document.getElementById('sens'),
+  tolerancia: document.getElementById('tolerancia'),
+  mDE: document.getElementById('mDE'),
+  mL: document.getElementById('mL'),
+  mA: document.getElementById('mA'),
+  mB: document.getElementById('mB'),
+  sugg: document.getElementById('sugg'),
+  analyzeBtn: document.getElementById('analyzeBtn'),
+  statusMsg: document.getElementById('statusMsg'),
+};
+
+const picked = { padrao:false, amostra:false };
+const cams = {};
+
+function averageColor(canvas, ctx){
+  const step = 4;
+  let rr=0, gg=0, bb=0, n=0;
+  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+  for(let i=0; i<data.length; i+=4*step){ rr+=data[i]; gg+=data[i+1]; bb+=data[i+2]; n++; }
+  rr=Math.round(rr/n); gg=Math.round(gg/n); bb=Math.round(bb/n);
+  return '#' + [rr,gg,bb].map(v=>v.toString(16).padStart(2,'0')).join('');
+}
+
+function setupCamera(prefix, hexInput){
+  const fileInput = document.getElementById(prefix+'Foto');
+  const triggerBtn = document.getElementById(prefix+'Btn');
+  const wrap = document.getElementById(prefix+'ShotWrap');
+  const canvas = document.getElementById(prefix+'Canvas');
+  const pickedRow = document.getElementById(prefix+'PickedRow');
+  const pickedDot = document.getElementById(prefix+'PickedDot');
+  const pickedText = document.getElementById(prefix+'PickedText');
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  let loadedImg = null;
+
+  triggerBtn.addEventListener('click', ()=> fileInput.click());
+
+  fileInput.addEventListener('change', e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const img = new Image();
+    img.onload = ()=>{
+      const maxW = 640;
+      const scale = Math.min(1, maxW / img.width);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      loadedImg = img;
+      wrap.classList.add('show');
+      pickedRow.style.display = 'none';
+      picked[prefix] = false;
+      cams[prefix].hasPhoto = true;
+    };
+    img.src = URL.createObjectURL(file);
+  });
+
+  function sampleAt(clientX, clientY){
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.round((clientX - rect.left) * (canvas.width / rect.width));
+    const y = Math.round((clientY - rect.top) * (canvas.height / rect.height));
+    const r = 6;
+    const x0 = Math.max(0, x-r), y0 = Math.max(0, y-r);
+    const w = Math.min(canvas.width, x+r) - x0;
+    const h = Math.min(canvas.height, y+r) - y0;
+    if(w<=0 || h<=0) return;
+    const data = ctx.getImageData(x0, y0, w, h).data;
+    let rr=0, gg=0, bb=0, n=0;
+    for(let i=0; i<data.length; i+=4){ rr+=data[i]; gg+=data[i+1]; bb+=data[i+2]; n++; }
+    rr = Math.round(rr/n); gg = Math.round(gg/n); bb = Math.round(bb/n);
+    const hex = '#' + [rr,gg,bb].map(v=>v.toString(16).padStart(2,'0')).join('');
+
+    if(loadedImg){
+      ctx.drawImage(loadedImg, 0, 0, canvas.width, canvas.height);
+      ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI*2);
+      ctx.lineWidth = 3; ctx.strokeStyle = '#ffffff'; ctx.stroke();
+      ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI*2);
+      ctx.lineWidth = 1.5; ctx.strokeStyle = '#7c5cff'; ctx.stroke();
+    }
+
+    hexInput.value = hex;
+    pickedDot.style.background = hex;
+    pickedText.textContent = 'Cor marcada: ' + hex;
+    pickedRow.style.display = 'flex';
+    picked[prefix] = true;
+  }
+
+  canvas.addEventListener('click', e=> sampleAt(e.clientX, e.clientY));
+
+  cams[prefix] = { canvas, ctx, hexInput, pickedDot, pickedText, pickedRow, hasPhoto:false };
+}
+setupCamera('padrao', els.pHex);
+setupCamera('amostra', els.aHex);
+
+// ===== Modo foto única: padrão e amostra na mesma foto =====
+let modo = 'unica';
+try{ modo = localStorage.getItem('comparadorCores_modoFoto') === 'duas' ? 'duas' : 'unica'; }catch(e){}
+const unica = { img:null, scale:1, mark:{P:null,A:null}, alvo:'P' };
+const U = {
+  btn: document.getElementById('unicaBtn'), file: document.getElementById('unicaFoto'),
+  wrap: document.getElementById('unicaShotWrap'), canvas: document.getElementById('unicaCanvas'),
+  size: document.getElementById('unicaSize'), sizeVal: document.getElementById('unicaSizeVal'),
+  chips: [...document.querySelectorAll('#unicaChips .chip')]
+};
+const uctx = U.canvas.getContext('2d', { willReadFrequently:true });
+const U_COR = { P:'#3fd0e0', A:'#7c5cff' };
+
+function setModo(m){
+  modo = m;
+  try{ localStorage.setItem('comparadorCores_modoFoto', m); }catch(e){}
+  document.getElementById('unicaBox').style.display = m==='unica' ? 'block' : 'none';
+  document.getElementById('duasBox').style.display = m==='duas' ? 'block' : 'none';
+  document.querySelectorAll('#modoSeg button').forEach(b=> b.classList.toggle('on', b.dataset.modo===m));
+}
+document.querySelectorAll('#modoSeg button').forEach(b=> b.addEventListener('click', ()=> setModo(b.dataset.modo)));
+setModo(modo);
+
+function setAlvo(k){
+  unica.alvo = k;
+  U.chips.forEach(c=> c.classList.toggle('on', c.dataset.alvo===k));
+}
+U.chips.forEach(c=> c.addEventListener('click', ()=> setAlvo(c.dataset.alvo)));
+
+function unicaRadius(){ return Math.max(4, Math.round(U.canvas.width * parseFloat(U.size.value) / 100)); }
+
+// Leitura robusta: lê só dentro do círculo, descarta os 10% mais claros (reflexo) e os 10% mais escuros (sombra)
+function lerCirculo(cx, cy, r){
+  const x0 = Math.max(0, Math.floor(cx-r)), y0 = Math.max(0, Math.floor(cy-r));
+  const x1 = Math.min(U.canvas.width, Math.ceil(cx+r)), y1 = Math.min(U.canvas.height, Math.ceil(cy+r));
+  const w = x1-x0, h = y1-y0; if(w<=0 || h<=0) return null;
+  const d = uctx.getImageData(x0, y0, w, h).data;
+  const px = [];
+  for(let y=0;y<h;y++) for(let x=0;x<w;x++){
+    const dx = x0+x+0.5-cx, dy = y0+y+0.5-cy;
+    if(dx*dx+dy*dy > r*r) continue;
+    const i = (y*w+x)*4;
+    px.push([d[i], d[i+1], d[i+2], 0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]]);
+  }
+  if(px.length < 9) return null;
+  px.sort((a,b)=> a[3]-b[3]);
+  const cut = Math.floor(px.length*0.10);
+  const keep = px.slice(cut, px.length-cut);
+  let rr=0, gg=0, bb=0, ll=0;
+  keep.forEach(p=>{ rr+=p[0]; gg+=p[1]; bb+=p[2]; ll+=p[3]; });
+  const n = keep.length; rr/=n; gg/=n; bb/=n; ll/=n;
+  let v=0; keep.forEach(p=>{ v+=(p[3]-ll)*(p[3]-ll); });
+  const desvio = Math.sqrt(v/n);
+  const hex = '#' + [rr,gg,bb].map(x=>Math.round(x).toString(16).padStart(2,'0')).join('');
+  return { hex, desvio, n: px.length };
+}
+
+function desenharUnica(){
+  if(!unica.img) return;
+  uctx.drawImage(unica.img, 0, 0, U.canvas.width, U.canvas.height);
+  const r = unicaRadius(), lw = Math.max(4, U.canvas.width/220);
+  ['P','A'].forEach(k=>{
+    const m = unica.mark[k]; if(!m) return;
+    uctx.beginPath(); uctx.arc(m.x, m.y, r, 0, Math.PI*2);
+    uctx.lineWidth = lw*2; uctx.strokeStyle = '#ffffff'; uctx.stroke();
+    uctx.beginPath(); uctx.arc(m.x, m.y, r, 0, Math.PI*2);
+    uctx.lineWidth = lw; uctx.strokeStyle = U_COR[k]; uctx.stroke();
+    const fs = Math.max(28, Math.round(U.canvas.width/36)), by = Math.max(fs, m.y - r - lw*3);
+    uctx.beginPath(); uctx.arc(m.x, by - fs*0.1, fs*0.78, 0, Math.PI*2);
+    uctx.fillStyle = U_COR[k]; uctx.fill(); uctx.lineWidth = 2; uctx.strokeStyle = '#fff'; uctx.stroke();
+    uctx.fillStyle = k==='P' ? '#06222a' : '#ffffff'; uctx.font = '800 '+fs+'px sans-serif';
+    uctx.textAlign = 'center'; uctx.textBaseline = 'middle'; uctx.fillText(k, m.x, by - fs*0.1 + 1);
+  });
+}
+
+function uniformidade(dv){
+  if(dv < 6)  return { t:'uniformidade boa', c:'ur-bom' };
+  if(dv < 12) return { t:'uniformidade média — se der, afaste de reflexo/sombra', c:'ur-med' };
+  return { t:'área irregular (reflexo, sombra ou detalhe) — mude o círculo de lugar', c:'ur-ruim' };
+}
+
+function atualizarLeituraUnica(k){
+  const m = unica.mark[k]; if(!m) return;
+  const rd = lerCirculo(m.x, m.y, unicaRadius()); if(!rd) return;
+  m.hex = rd.hex; m.desvio = rd.desvio;
+  (k==='P' ? els.pHex : els.aHex).value = rd.hex;
+  document.getElementById('unicaDot'+k).style.background = rd.hex;
+  document.getElementById('unicaTxt'+k).innerHTML = '<b>' + (k==='P' ? 'Padrão' : 'Amostra') + '</b> · ' + rd.hex;
+  const u = uniformidade(rd.desvio), el = document.getElementById('unicaUni'+k);
+  el.textContent = u.t; el.className = u.c;
+  document.getElementById('unicaRead'+k).style.display = 'flex';
+}
+
+U.btn.addEventListener('click', ()=> U.file.click());
+U.file.addEventListener('change', e=>{
+  const file = e.target.files[0]; if(!file) return;
+  const img = new Image();
+  img.onload = ()=>{
+    const maxW = 1280, sc = Math.min(1, maxW / img.width);
+    U.canvas.width = Math.round(img.width*sc); U.canvas.height = Math.round(img.height*sc);
+    unica.img = img; unica.scale = sc; unica.mark = {P:null, A:null};
+    uctx.drawImage(img, 0, 0, U.canvas.width, U.canvas.height);
+    U.wrap.classList.add('show');
+    ['P','A'].forEach(k=> document.getElementById('unicaRead'+k).style.display='none');
+    els.pHex.value = ''; els.aHex.value = '';
+    setAlvo('P');
+  };
+  img.src = URL.createObjectURL(file);
+});
+U.canvas.addEventListener('click', e=>{
+  if(!unica.img) return;
+  const rect = U.canvas.getBoundingClientRect();
+  const x = (e.clientX - rect.left) * (U.canvas.width / rect.width);
+  const y = (e.clientY - rect.top) * (U.canvas.height / rect.height);
+  const k = unica.alvo;
+  unica.mark[k] = { x, y };
+  atualizarLeituraUnica(k);
+  const outro = k==='P' ? 'A' : 'P';
+  if(!unica.mark[outro]) setAlvo(outro);
+  desenharUnica();
+});
+U.size.addEventListener('input', ()=>{
+  U.sizeVal.textContent = U.size.value + '%';
+  ['P','A'].forEach(atualizarLeituraUnica);
+  desenharUnica();
+});
+
+// recorte (com o círculo) de cada ponto, usado no relatório
+function recorteUnica(k){
+  const m = unica.mark[k], r = unicaRadius();
+  const lado = Math.min(U.canvas.width, U.canvas.height, Math.max(r*5, U.canvas.width*0.2));
+  let sx = Math.min(Math.max(0, m.x - lado/2), U.canvas.width - lado);
+  let sy = Math.min(Math.max(0, m.y - lado/2), U.canvas.height - lado);
+  const out = document.createElement('canvas'); out.width = 360; out.height = 360;
+  const o = out.getContext('2d'), f = 1/unica.scale;
+  o.drawImage(unica.img, sx*f, sy*f, lado*f, lado*f, 0, 0, 360, 360);
+  const k2 = 360/lado;
+  o.beginPath(); o.arc((m.x-sx)*k2, (m.y-sy)*k2, r*k2, 0, Math.PI*2);
+  o.lineWidth = 5; o.strokeStyle = '#fff'; o.stroke();
+  o.beginPath(); o.arc((m.x-sx)*k2, (m.y-sy)*k2, r*k2, 0, Math.PI*2);
+  o.lineWidth = 2.5; o.strokeStyle = U_COR[k]; o.stroke();
+  return out.toDataURL('image/jpeg', 0.9);
+}
+
+// ===== Segurança: nunca colocar texto digitado direto em innerHTML =====
+function esc(v){
+  return String(v == null ? '' : v).replace(/[&<>"'`]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));
+}
+function safeColor(c){ return /^#[0-9a-fA-F]{3,8}$/.test(String(c)) ? String(c) : '#888888'; }
+
+const BASES = [
+  { key:'amarelo', label:'Amarelo Benzidina', color:'#e8c21a', a:5,   b:90 },
+  { key:'laca',    label:'Vermelho Laca-C',    color:'#d2452a', a:70,  b:35 },
+  { key:'rubi',    label:'Vermelho Rubi',      color:'#c21856', a:75,  b:-25 },
+  { key:'violeta', label:'Violeta Fanal',      color:'#5a2d8c', a:45,  b:-70 },
+  { key:'azul',    label:'Azul Ftálico',       color:'#0d5fa8', a:-25, b:-85 },
+  { key:'verde',   label:'Verde Ftálico',      color:'#0d7a4f', a:-80, b:-20 },
+];
+const HUE_ORDER = BASES
+  .map(c => ({...c, ang: (Math.atan2(c.b, c.a)*180/Math.PI + 360) % 360}))
+  .sort((x,y)=> x.ang - y.ang);
+
+function solve2x2(a1,b1,a2,b2,da,db){
+  const det = a1*b2 - a2*b1;
+  if(Math.abs(det) < 1e-6) return null;
+  const w1 = (da*b2 - db*a2) / det;
+  const w2 = (a1*db - b1*da) / det;
+  return [w1, w2];
+}
+
+function pickChromaticMix(da, db){
+  const mag = Math.sqrt(da*da + db*db);
+  if(mag < 0.5) return [];
+  const needAng = (Math.atan2(db, da)*180/Math.PI + 360) % 360;
+  const n = HUE_ORDER.length;
+  for(let i=0;i<n;i++){
+    const c1 = HUE_ORDER[i];
+    const c2 = HUE_ORDER[(i+1)%n];
+    const a2 = c2.ang > c1.ang ? c2.ang : c2.ang + 360;
+    let target = needAng >= c1.ang ? needAng : needAng + 360;
+    if(target >= c1.ang && target <= a2){
+      const norm1 = Math.hypot(c1.a,c1.b), norm2 = Math.hypot(c2.a,c2.b);
+      const u1 = {a:c1.a/norm1, b:c1.b/norm1};
+      const u2 = {a:c2.a/norm2, b:c2.b/norm2};
+      const sol = solve2x2(u1.a,u1.b,u2.a,u2.b, da,db);
+      if(sol && sol[0]>=0 && sol[1]>=0){
+        return [ {...c1, dose:sol[0]}, {...c2, dose:sol[1]} ].filter(x=>x.dose>0.05);
+      }
+    }
+  }
+  return [];
+}
+
+function calc(){
+  const padrao = hexToRgb(els.pHex.value);
+  const amostra = hexToRgb(els.aHex.value);
+  const labP = rgbToLab(padrao);
+  const labA = rgbToLab(amostra);
+
+  const dL = labP.L - labA.L;
+  const da = labP.a - labA.a;
+  const db = labP.b - labA.b;
+  const dE = deltaE2000(labA, labP);
+
+  const tolerancia = parseFloat(els.tolerancia.value) || 1.5;
+  const aprovado = dE < tolerancia;
+
+  els.mDE.textContent = dE.toFixed(1);
+  els.mDE.className = 'v ' + (aprovado ? 'deltaE-ok' : 'deltaE-bad');
+  els.mL.textContent = (dL>=0?'+':'')+dL.toFixed(1);
+  els.mA.textContent = (da>=0?'+':'')+da.toFixed(1);
+  els.mB.textContent = (db>=0?'+':'')+db.toFixed(1);
+
+  const peso = parseFloat(els.peso.value) || 0;
+  const sens = parseFloat(els.sens.value) || 0;
+
+  els.sugg.innerHTML = '';
+  if(aprovado){
+    els.sugg.innerHTML = '<div class="sugg">✓ Amostra aprovada — dentro da tolerância de ΔE ' + tolerancia.toFixed(1) + '. Nenhum ajuste necessário.</div>';
+  } else {
+    const mix = pickChromaticMix(da, db);
+    const rows = mix.map(c => ({ label:c.label, color:c.color, grams: c.dose * sens * peso }));
+
+    if(dL > 0.5) rows.push({ label:'Verniz de corte (transparente)', color:'#dcd9cf', grams: dL * sens * peso });
+    if(dL < -0.5) rows.push({ label:'Preto', color:'#111318', grams: Math.abs(dL) * sens * peso });
+
+    const active = rows.filter(r=>r.grams > 0.5).sort((x,y)=>y.grams-x.grams);
+
+    active.forEach(b=>{
+      const div = document.createElement('div');
+      div.className = 'sugg';
+      const kg = b.grams/1000;
+      const amountText = kg >= 1 ? kg.toFixed(2)+' kg' : b.grams.toFixed(0)+' g';
+      div.innerHTML = `<span class="dot" style="background:${safeColor(b.color)}"></span>
+        <span>Adicione <strong>${esc(b.label)}</strong></span>
+        <span class="amt">${amountText}</span>`;
+      els.sugg.appendChild(div);
+    });
+
+    if(active.length === 0){
+      els.sugg.innerHTML = '<div class="sugg">Diferença detectada, mas abaixo do limite de correção configurado.</div>';
+    } else {
+      savePending({ padraoHex: els.pHex.value, deAntes: dE, peso: peso });
+    }
+  }
+
+  lastResult = { labP, labA, dL, da, db, dE, tolerancia, aprovado };
+  document.getElementById('reportCard').style.display = 'block';
+}
+
+els.analyzeBtn.addEventListener('click', ()=>{
+  if(modo === 'unica'){
+    if(!unica.img || !unica.mark.P || !unica.mark.A){
+      els.statusMsg.style.display = 'block';
+      els.statusMsg.textContent = !unica.img
+        ? 'Tire a foto com o padrão e a amostra antes de analisar.'
+        : 'Marque o padrão e a amostra na foto antes de analisar.';
+      return;
+    }
+    els.statusMsg.style.display = 'none';
+  } else {
+  const semFoto = [];
+  ['padrao','amostra'].forEach(k=>{
+    const cam = cams[k];
+    if(!cam || !cam.hasPhoto){ semFoto.push(k==='padrao' ? 'padrão' : 'amostra'); return; }
+    if(!picked[k]){
+      const hex = averageColor(cam.canvas, cam.ctx);
+      cam.hexInput.value = hex;
+      cam.pickedDot.style.background = hex;
+      cam.pickedText.textContent = 'Cor média da foto: ' + hex;
+      cam.pickedRow.style.display = 'flex';
+      picked[k] = true;
+    }
+  });
+  if(semFoto.length){
+    els.statusMsg.style.display = 'block';
+    els.statusMsg.textContent = 'Tire a foto do(a) ' + semFoto.join(' e do(a) ') + ' antes de analisar.';
+    return;
+  }
+  els.statusMsg.style.display = 'none';
+
+  }
+  const oldPending = loadPending();
+  const matches = oldPending && oldPending.padraoHex === els.pHex.value;
+
+  calc();
+
+  if(matches){
+    renderPendingPrompt(oldPending);
+  } else {
+    document.getElementById('pendingBox').style.display = 'none';
+  }
+});
+
+document.getElementById('howToBtn').addEventListener('click', ()=>{
+  const box = document.getElementById('tutorialBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+});
+
+document.getElementById('calibrateBtn').addEventListener('click', ()=>{
+  const box = document.getElementById('calibrateBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+});
+
+document.getElementById('calcSensBtn').addEventListener('click', ()=>{
+  const peso = parseFloat(document.getElementById('calPeso').value);
+  const gramas = parseFloat(document.getElementById('calGramas').value);
+  const antes = parseFloat(document.getElementById('calDeAntes').value);
+  const depois = parseFloat(document.getElementById('calDeDepois').value);
+  const result = document.getElementById('calResult');
+
+  if(!(peso > 0) || !(gramas >= 0) || isNaN(antes) || isNaN(depois) || antes <= depois){
+    result.style.display = 'block';
+    result.style.color = 'var(--warn)';
+    result.style.fontSize = '.85rem';
+    result.textContent = 'Preencha peso, gramas e os dois ΔE (o ΔE antes precisa ser maior que o depois).';
+    return;
+  }
+
+  const sens = gramas / ((antes - depois) * peso);
+  result.style.display = 'block';
+  result.style.color = 'var(--good)';
+  result.style.fontSize = '1.3rem';
+  result.innerHTML = '<span class="lbl">Sensibilidade desta medição</span>' + sens.toFixed(2) + ' g/kg por unidade';
+
+  registerCalibration(sens, gramas, peso, antes, depois);
+});
+
+document.getElementById('resetCalBtn').addEventListener('click', ()=>{
+  saveCalHistory([]);
+  clearPending();
+  renderAutoCalInfo();
+  renderPendingPrompt();
+});
+
+renderAutoCalInfo();
+renderPendingPrompt();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBanner').style.display = 'flex';
+});
+document.getElementById('installBtn').addEventListener('click', async ()=>{
+  if(!deferredPrompt) return;
+  document.getElementById('installBanner').style.display = 'none';
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+});
+window.addEventListener('appinstalled', ()=>{
+  document.getElementById('installBanner').style.display = 'none';
+});
+
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+if(isIOS && !isStandalone){
+  document.getElementById('iosHint').style.display = 'block';
+}
+
+// Botão de baixar APK: só faz sentido no site, e só até a pessoa baixar uma vez
+const downloadBtn = document.getElementById('downloadApkBtn');
+const jaBaixouApk = localStorage.getItem('comparadorCores_apkBaixado') === 'true';
+if(isStandalone || jaBaixouApk){
+  downloadBtn.style.display = 'none';
+} else {
+  downloadBtn.addEventListener('click', ()=>{
+    localStorage.setItem('comparadorCores_apkBaixado', 'true');
+    setTimeout(()=>{ downloadBtn.style.display = 'none'; }, 300);
+  });
+}
+
+// ---- Controle de acesso (Netlify Identity + trava local por biometria/PIN) ----
+const WEBAUTHN_KEY = 'comparadorCores_webauthnCredId';
+
+function b64urlToBuf(b64url){
+  const b64 = b64url.replace(/-/g,'+').replace(/_/g,'/');
+  const pad = b64.length % 4 ? '='.repeat(4 - b64.length % 4) : '';
+  const bin = atob(b64 + pad);
+  const buf = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) buf[i] = bin.charCodeAt(i);
+  return buf;
+}
+function bufToB64url(buf){
+  const bytes = new Uint8Array(buf);
+  let bin = '';
+  for(let i=0;i<bytes.length;i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function webauthnAvailable(){
+  return window.PublicKeyCredential && navigator.credentials;
+}
+
+// ---- Novidades da versão: muda APP_VERSION a cada deploy com mudanças visíveis ----
+const APP_VERSION = '1.4.0';
+const WHATS_NEW = [
+  'Política de Privacidade e Termos de Uso no app, e botão “Apagar dados deste aparelho” no rodapé',
+  'Mais segurança: proteção contra código malicioso nos campos de texto, bloqueio automático após 2 min fora do app (com a biometria ativada) e “Entrar com e-mail e senha” agora exige senha de verdade',
+  'Novo modo FOTO ÚNICA: padrão e amostra na mesma foto, cada um com seu círculo de leitura — menos erro de ΔE por diferença de luz entre fotos',
+  'Leitura mais precisa: lê só dentro do círculo, ignora reflexo e sombra e avisa quando a área não está uniforme',
+  'Novo visual CROMA: ícone e tela inicial renovados',
+  'Relatório agora mostra ✓ Aprovado / ✕ Reprovado (e gera mesmo quando a tinta já está certa)',
+  'Tolerância de ΔE ajustável pelo ícone ⚙️ ao lado de "Diferença"',
+  'Ícones de ajuda (?) explicando as seções de Correção e Parâmetros',
+  'Botões de Imprimir e Enviar via WhatsApp direto no relatório'
+];
+
+function checkWhatsNew(){
+  const seen = localStorage.getItem('comparadorCores_appVersionSeen');
+  if(seen === APP_VERSION) return;
+  document.getElementById('whatsNewBody').innerHTML = WHATS_NEW.map(item => '<li>'+item+'</li>').join('');
+  document.getElementById('whatsNewModal').style.display = 'flex';
+}
+document.getElementById('whatsNewCloseBtn').addEventListener('click', ()=>{
+  localStorage.setItem('comparadorCores_appVersionSeen', APP_VERSION);
+  document.getElementById('whatsNewModal').style.display = 'none';
+});
+
+function showApp(user){
+  document.getElementById('loginGate').style.display = 'none';
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('appWrap').style.display = 'block';
+  document.getElementById('loggedInAs').textContent = 'Conectado como ' + (user && user.email ? user.email : '');
+  maybeOfferBiometricSetup();
+  checkWhatsNew();
+}
+function showGate(){
+  document.getElementById('loginGate').style.display = 'flex';
+  document.getElementById('lockScreen').style.display = 'none';
+  document.getElementById('appWrap').style.display = 'none';
+}
+function showLockScreen(){
+  document.getElementById('loginGate').style.display = 'none';
+  document.getElementById('appWrap').style.display = 'none';
+  document.getElementById('lockScreen').style.display = 'flex';
+}
+
+async function maybeOfferBiometricSetup(){
+  if(!webauthnAvailable()) return;
+  if(localStorage.getItem(WEBAUTHN_KEY)) return;
+  let canUsePlatform = false;
+  try{ canUsePlatform = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(); }catch(e){}
+  if(!canUsePlatform) return;
+  document.getElementById('biometricOffer').style.display = 'block';
+}
+
+document.getElementById('biometricSetupBtn').addEventListener('click', async ()=>{
+  const user = netlifyIdentity.currentUser();
+  if(!user) return;
+  try{
+    const challenge = crypto.getRandomValues(new Uint8Array(32));
+    const userId = crypto.getRandomValues(new Uint8Array(16));
+    const cred = await navigator.credentials.create({
+      publicKey: {
+        challenge,
+        rp: { name: 'Acerto de Cor' },
+        user: { id: userId, name: user.email, displayName: user.email },
+        pubKeyCredParams: [{ type:'public-key', alg:-7 }, { type:'public-key', alg:-257 }],
+        authenticatorSelection: { authenticatorAttachment:'platform', userVerification:'required' },
+        timeout: 60000
+      }
+    });
+    localStorage.setItem(WEBAUTHN_KEY, bufToB64url(cred.rawId));
+    document.getElementById('biometricOffer').style.display = 'none';
+  }catch(e){
+    alert('Não foi possível ativar a biometria neste aparelho.');
+  }
+});
+document.getElementById('biometricDismissBtn').addEventListener('click', ()=>{
+  document.getElementById('biometricOffer').style.display = 'none';
+});
+
+async function tryBiometricUnlock(){
+  const credId = localStorage.getItem(WEBAUTHN_KEY);
+  if(!credId) return false;
+  try{
+    const challenge = crypto.getRandomValues(new Uint8Array(32));
+    await navigator.credentials.get({
+      publicKey: {
+        challenge,
+        allowCredentials: [{ id: b64urlToBuf(credId), type:'public-key' }],
+        userVerification: 'required',
+        timeout: 60000
+      }
+    });
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+document.getElementById('unlockBtn').addEventListener('click', async ()=>{
+  const ok = await tryBiometricUnlock();
+  if(ok){ showApp(netlifyIdentity.currentUser()); }
+});
+document.getElementById('unlockFallbackBtn').addEventListener('click', ()=>{
+  // Sem biometria, a pessoa precisa provar quem é de novo: sai da conta e pede e-mail e senha
+  netlifyIdentity.logout();
+});
+
+// Privacidade: apaga histórico e preferências guardados neste aparelho (não mexe no login nem na biometria)
+document.getElementById('wipeDataBtn').addEventListener('click', ()=>{
+  if(!confirm('Apagar o histórico de calibração e as preferências salvos NESTE aparelho?\n\nSua conta e o login não são apagados.')) return;
+  try{ [CAL_KEY, PENDING_KEY, 'comparadorCores_modoFoto', 'comparadorCores_apkBaixado'].forEach(k=> localStorage.removeItem(k)); }catch(e){}
+  alert('Pronto: os dados deste aparelho foram apagados.');
+  location.reload();
+});
+
+// Bloqueio automático: com a biometria ativada, se o app ficar em segundo plano por mais de 2 minutos, volta a pedir
+const AUTO_LOCK_MS = 2 * 60 * 1000;
+let hiddenAt = 0;
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState === 'hidden'){ hiddenAt = Date.now(); return; }
+  if(hiddenAt && (Date.now() - hiddenAt) > AUTO_LOCK_MS){
+    let temBio = false; try{ temBio = !!localStorage.getItem(WEBAUTHN_KEY); }catch(e){}
+    if(temBio && document.getElementById('appWrap').style.display === 'block' && netlifyIdentity.currentUser()){ showLockScreen(); }
+  }
+  hiddenAt = 0;
+});
+
+netlifyIdentity.on('init', async user => {
+  if(!user){ showGate(); return; }
+  if(localStorage.getItem(WEBAUTHN_KEY)){
+    showLockScreen();
+  } else {
+    showApp(user);
+  }
+});
+netlifyIdentity.on('login', user => {
+  showApp(user);
+  netlifyIdentity.close();
+});
+netlifyIdentity.on('logout', () => {
+  localStorage.removeItem(WEBAUTHN_KEY);
+  showGate();
+});
+
+document.getElementById('loginBtn').addEventListener('click', () => netlifyIdentity.open('login'));
+document.getElementById('logoutBtn').addEventListener('click', () => netlifyIdentity.logout());
+
+netlifyIdentity.init();
+
+// ---- Relatório (PDF / Imagem) ----
+function fmtLab(lab){ return lab.L.toFixed(1)+' / '+lab.a.toFixed(1)+' / '+lab.b.toFixed(1); }
+
+document.getElementById('genReportBtn').addEventListener('click', ()=>{
+  if(!lastResult) return;
+  const { labP, labA, dL, da, db, dE, tolerancia, aprovado } = lastResult;
+
+  const now = new Date();
+  document.getElementById('reportDate').textContent =
+    now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+
+  const cliente = document.getElementById('repCliente').value.trim() || '—';
+  const bobina = document.getElementById('repBobina').value.trim() || '—';
+  const turno = document.getElementById('repTurno').value;
+
+  document.getElementById('reportJobTable').innerHTML = `
+    <tr style="border-bottom:1px solid #eee"><td style="padding:6px 8px;color:#666">Cliente</td><td style="padding:6px 8px;text-align:right;font-weight:600">${esc(cliente)}</td></tr>
+    <tr style="border-bottom:1px solid #eee"><td style="padding:6px 8px;color:#666">Nº da bobina</td><td style="padding:6px 8px;text-align:right;font-weight:600">${esc(bobina)}</td></tr>
+    <tr><td style="padding:6px 8px;color:#666">Turno</td><td style="padding:6px 8px;text-align:right;font-weight:600">${esc(turno)}</td></tr>
+  `;
+
+  if(modo === 'unica' && unica.img && unica.mark.P && unica.mark.A){
+    document.getElementById('reportImgPadrao').src = recorteUnica('P');
+    document.getElementById('reportImgAmostra').src = recorteUnica('A');
+  } else {
+    document.getElementById('reportImgPadrao').src = cams.padrao.canvas.toDataURL('image/jpeg', 0.9);
+    document.getElementById('reportImgAmostra').src = cams.amostra.canvas.toDataURL('image/jpeg', 0.9);
+  }
+
+  document.getElementById('reportLabTable').innerHTML = `
+    <tr style="border-bottom:1px solid #eee"><td style="padding:6px 4px">L* a* b*</td>
+      <td style="padding:6px 4px;text-align:center">${fmtLab(labP)}</td>
+      <td style="padding:6px 4px;text-align:center">${fmtLab(labA)}</td></tr>
+  `;
+  document.getElementById('reportDE').textContent = dE.toFixed(1);
+  document.getElementById('reportDeltas').textContent =
+    'ΔL ' + (dL>=0?'+':'') + dL.toFixed(1) + '  ·  Δa ' + (da>=0?'+':'') + da.toFixed(1) + '  ·  Δb ' + (db>=0?'+':'') + db.toFixed(1) +
+    '  ·  tolerância ' + tolerancia.toFixed(1);
+
+  const badge = document.getElementById('reportBadge');
+  badge.textContent = aprovado ? '✓ APROVADO' : '✕ REPROVADO';
+  badge.style.background = aprovado ? '#e3f7ea' : '#fde9e3';
+  badge.style.color = aprovado ? '#1d8a4a' : '#c0392b';
+
+  document.getElementById('reportModal').style.display = 'block';
+});
+
+document.getElementById('reportCloseBtn').addEventListener('click', ()=>{
+  document.getElementById('reportModal').style.display = 'none';
+});
+
+async function captureReportCanvas(){
+  return await html2canvas(document.getElementById('reportTemplate'), { scale: 2, backgroundColor: '#ffffff' });
+}
+
+document.getElementById('reportPrintBtn').addEventListener('click', ()=>{
+  window.print();
+});
+
+document.getElementById('reportShareBtn').addEventListener('click', async ()=>{
+  const btn = document.getElementById('reportShareBtn');
+  const textoOriginal = btn.textContent;
+  btn.textContent = 'Preparando...';
+  try{
+    const canvas = await captureReportCanvas();
+    canvas.toBlob(async (blob)=>{
+      const file = new File([blob], 'relatorio-acerto-de-cor.png', { type: 'image/png' });
+      if(navigator.canShare && navigator.canShare({ files: [file] })){
+        try{
+          await navigator.share({ files: [file], title: 'Relatório de Análise de Cor' });
+        }catch(e){ /* usuário cancelou o compartilhamento, tudo bem */ }
+      } else {
+        // Sem suporte a compartilhar arquivo: baixa a imagem e abre o WhatsApp Web/app
+        const link = document.createElement('a');
+        link.download = 'relatorio-acerto-de-cor.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        window.open('https://wa.me/?text=' + encodeURIComponent('Relatório de análise de cor (imagem baixada — anexe aqui)'), '_blank', 'noopener,noreferrer');
+      }
+      btn.textContent = textoOriginal;
+    }, 'image/png');
+  }catch(e){
+    btn.textContent = textoOriginal;
+    alert('Não foi possível gerar a imagem pra compartilhar.');
+  }
+});
+
+document.getElementById('reportDownloadImgBtn').addEventListener('click', async ()=>{
+  const canvas = await captureReportCanvas();
+  const link = document.createElement('a');
+  link.download = 'relatorio-acerto-de-cor.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+});
+
+document.getElementById('reportDownloadPdfBtn').addEventListener('click', async ()=>{
+  const canvas = await captureReportCanvas();
+  const { jsPDF } = window.jspdf;
+  const imgData = canvas.toDataURL('image/png');
+  const pdfWidth = 210;
+  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+  const pdf = new jsPDF('p', 'mm', 'a4');
+  pdf.addImage(imgData, 'PNG', 0, 10, pdfWidth, pdfHeight);
+  pdf.save('relatorio-acerto-de-cor.pdf');
+});
+
+// ---- Modal de informação (ícones "?") ----
+const INFO_TEXTS = {
+  correcao: {
+    title: 'Pra que serve essa seção?',
+    body: 'Aqui o app mostra quais tintas adicionar — e quanto, em gramas — pra corrigir a diferença de cor encontrada entre o padrão e a amostra. Ele combina as duas tintas da sua paleta cujo matiz mais se aproxima da direção que falta corrigir, e usa verniz de corte (clarear) ou preto (escurecer) quando o problema é de luminosidade. Se a amostra já estiver dentro da tolerância configurada, essa seção mostra "aprovado" em vez de uma sugestão de ajuste.'
+  },
+  parametros: {
+    title: 'Pra que serve essa seção?',
+    body: 'Aqui você ajusta os números que o cálculo da correção usa: o peso do lote (quanto de tinta você tem pra corrigir) e a sensibilidade (a força real das suas tintas — quanto grama de cada uma muda a cor por unidade de diferença). Quanto mais calibrados esses dois valores, mais precisa fica a quantidade sugerida em gramas na seção de Correção.'
+  }
+};
+
+document.querySelectorAll('.infoIcon').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const info = INFO_TEXTS[btn.dataset.info];
+    if(!info) return;
+    document.getElementById('infoModalTitle').textContent = info.title;
+    document.getElementById('infoModalBody').textContent = info.body;
+    document.getElementById('infoModal').style.display = 'flex';
+  });
+});
+document.getElementById('infoModalCloseBtn').addEventListener('click', ()=>{
+  document.getElementById('infoModal').style.display = 'none';
+});
+
+// ---- Engrenagem: ajuste rápido da tolerância ----
+document.getElementById('gearBtn').addEventListener('click', ()=>{
+  document.getElementById('gearTolerancia').value = els.tolerancia.value;
+  document.getElementById('gearModal').style.display = 'flex';
+});
+document.getElementById('gearCloseBtn').addEventListener('click', ()=>{
+  document.getElementById('gearModal').style.display = 'none';
+});
+document.getElementById('gearSaveBtn').addEventListener('click', ()=>{
+  const v = parseFloat(document.getElementById('gearTolerancia').value);
+  if(!(v > 0)) return;
+  els.tolerancia.value = v;
+  document.getElementById('gearModal').style.display = 'none';
+  if(lastResult) calc(); // recalcula aprovado/reprovado na hora, se já tinha uma análise feita
+});
+</script><iframe id="netlify-identity-widget" title="Netlify identity widget" style="position: fixed; top: 0; left: 0; border: none; width: 100%; height: 100%; overflow: visible; background: transparent; display: none; z-index: 99; " src="about:blank"></iframe>
+
+
+<script async="" src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="8b08da51-1a6a-4aff-8a5f-545bb2a395b9" data-app-host="app.netlify.com" data-account-tier="free"></script>
+<iframe id="netlify-identity-widget" title="Netlify identity widget" style="position: fixed; top: 0; left: 0; border: none; width: 100%; height: 100%; overflow: visible; background: transparent; display: none; z-index: 99; " src="about:blank"></iframe><iframe id="nl-badge-frame" title="Powered by Netlify" srcdoc="&lt;!doctype html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;color-scheme&quot; content=&quot;dark&quot;&gt;&lt;style&gt;
+    :root{--nl-vw:1074px;--nl-vh:883px}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:transparent;overflow:hidden}
+    body{display:flex;align-items:flex-end;justify-content:flex-end;height:100vh;
+      padding:8px 18px 18px 8px;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:#f4f9f9;-webkit-font-smoothing:antialiased}
+    .nl-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:10px;width:max-content;max-width:calc(var(--nl-vw,100vw) - 26px)}
+    button{font-family:inherit;cursor:pointer}
+    :focus-visible{outline:2px solid #32e6e2;outline-offset:2px;border-radius:6px}
+    .nl-icon-btn{position:relative;flex:none;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid transparent;background:transparent;color:#d5e3e6;transition:background .15s ease,color .15s ease}
+    .nl-icon-btn:hover{background:rgba(255,255,255,0.08);color:#f4f9f9}
+    .nl-tap::after{content:&quot;&quot;;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:max(100%,44px);height:max(100%,44px)}
+    @keyframes nl-rise{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important}}
+  
+      .nl-card{position:relative;display:none;width:min(340px,calc(var(--nl-vw,100vw) - 26px));max-height:calc(var(--nl-vh,100vh) - 84px);overflow-y:auto;background:linear-gradient(180deg,#132832 0%,#0e1e25 100%);border:1px solid rgba(255,255,255,0.09);border-radius:18px;padding:18px;transform-origin:bottom right;animation:nl-rise .3s cubic-bezier(.34,1.4,.4,1) both}
+      .nl-card.open{display:block}
+      .nl-card-close{position:absolute;top:10px;right:10px}
+      .nl-card h2{margin:0;padding-right:30px;font-size:16px;font-weight:750;letter-spacing:-0.015em;line-height:1.35}
+      .nl-card h2 em{font-style:normal;background:linear-gradient(90deg,#32e6e2,#4d7cfe,#9a6bff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+      .nl-card p{margin:8px 0 0;font-size:12.5px;color:#d5e3e6}
+      .nl-prompt{position:relative;margin-top:14px;background:#10222b;border:1px solid rgba(255,255,255,0.09);border-radius:14px;padding:10px 12px;transition:border-color .15s ease,box-shadow .15s ease}
+      .nl-prompt:focus-within{border-color:#05bdba;box-shadow:0 0 0 3px rgba(5,189,186,0.18)}
+      .nl-prompt textarea{display:block;width:100%;height:38px;resize:none;border:0;outline:none;background:transparent;color:#f4f9f9;font:inherit;font-size:13px;line-height:19px;padding:0 28px 0 0}
+      .nl-prompt textarea::placeholder{color:#a9bdc2}
+      .nl-send{position:absolute;right:9px;bottom:9px;width:24px;height:24px;flex:none;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:#05bdba;color:#02191b;transition:background .15s ease}
+      .nl-send:hover{background:#32e6e2}
+      @media (pointer: coarse){
+        .nl-prompt textarea{font-size:16px;line-height:21px;height:42px}
+      }
+      .nl-or{display:flex;align-items:center;gap:10px;margin:12px 0;font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#a9bdc2}
+      .nl-or::before,.nl-or::after{content:&quot;&quot;;flex:1;height:1px;background:rgba(255,255,255,0.09)}
+      .nl-drop{display:flex;align-items:center;justify-content:space-between;gap:6px;text-decoration:none;background:#1b3a45;border:1px solid rgba(255,255,255,0.09);border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:#cfe0e3;transition:background .15s ease,color .15s ease,border-color .15s ease}
+      .nl-drop:hover{background:#224753;color:#f4f9f9;border-color:rgba(50,230,226,0.3)}
+      .nl-drop .nl-arrow{transition:transform .18s cubic-bezier(.34,1.4,.4,1)}
+      .nl-drop:hover .nl-arrow{transform:translateX(3px)}
+      .nl-badge{display:flex;align-items:center;gap:9px;white-space:nowrap;border:1px solid rgba(255,255,255,0.09);background:linear-gradient(180deg,#142b34,#0e1e25);color:#f4f9f9;border-radius:999px;padding:9px 14px 9px 11px;font-size:13px;font-weight:600;letter-spacing:0.01em;transition:border-color .2s ease}
+      .nl-badge:hover{border-color:rgba(50,230,226,0.26)}
+      .nl-hide{display:block;width:100%;margin-top:10px;border:0;background:transparent;color:#a9bdc2;font-size:11.5px;font-weight:600;padding:4px;border-radius:8px;transition:color .15s ease}
+      .nl-hide:hover{color:#d5e3e6;text-decoration:underline}
+      .nl-badge-label{color:#d5e3e6;font-weight:500}
+      .nl-badge-brand{font-weight:750}
+    &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+      &lt;div class=&quot;nl-wrap&quot;&gt;
+        &lt;section class=&quot;nl-card&quot; id=&quot;nl-card&quot; aria-label=&quot;Build your own site on Netlify&quot;&gt;
+          &lt;button type=&quot;button&quot; class=&quot;nl-icon-btn nl-tap nl-card-close&quot; id=&quot;nl-card-close&quot; aria-label=&quot;Close&quot;&gt;&lt;svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.9&quot; stroke-linecap=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+          &lt;h2&gt;&lt;em&gt;Build your own site with Netlify&lt;/em&gt;&lt;/h2&gt;
+          &lt;p&gt;Describe what you want, and an AI agent designs, builds and deploys it in minutes.&lt;/p&gt;
+          &lt;form class=&quot;nl-prompt&quot; action=&quot;https://app.netlify.com/start&quot; method=&quot;get&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+            &lt;textarea name=&quot;prompt&quot; rows=&quot;2&quot; required maxlength=&quot;300&quot; autocomplete=&quot;off&quot;
+                      enterkeyhint=&quot;go&quot;
+                      placeholder=&quot;A shop for my handmade surfboards&amp;hellip;&quot;
+                      aria-label=&quot;Describe the site you want to build&quot;&gt;&lt;/textarea&gt;
+            &lt;button type=&quot;submit&quot; class=&quot;nl-send nl-tap&quot; aria-label=&quot;Build this site&quot;&gt;&lt;svg width=&quot;13&quot; height=&quot;13&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M8 12.75v-9.5M3.9 7.35 8 3.25l4.1 4.1&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_source&quot; value=&quot;netlify_badge&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_campaign&quot; value=&quot;loops&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_medium&quot; value=&quot;owned&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_content&quot; value=&quot;prompt&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;utm_id&quot; value=&quot;8b08da51-1a6a-4aff-8a5f-545bb2a395b9&quot;&gt;
+            
+          &lt;/form&gt;
+          &lt;div class=&quot;nl-or&quot;&gt;&lt;span&gt;or&lt;/span&gt;&lt;/div&gt;
+          &lt;a class=&quot;nl-drop&quot; href=&quot;https://app.netlify.com/drop?utm_source=netlify_badge&amp;utm_campaign=loops&amp;utm_medium=owned&amp;utm_content=drop&amp;utm_id=8b08da51-1a6a-4aff-8a5f-545bb2a395b9&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+            &lt;span&gt;Drop a site you already have&lt;/span&gt;&lt;span class=&quot;nl-arrow&quot; aria-hidden=&quot;true&quot;&gt;&amp;rarr;&lt;/span&gt;
+          &lt;/a&gt;
+          
+        &lt;/section&gt;
+        &lt;button type=&quot;button&quot; class=&quot;nl-badge&quot; id=&quot;nl-badge&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;nl-card&quot;
+                aria-label=&quot;Powered by Netlify — build your own site&quot;&gt;
+          &lt;svg width=&quot;18&quot; height=&quot;18&quot; viewBox=&quot;-45.625 -47.625 456.25 456.25&quot; fill=&quot;none&quot; aria-hidden=&quot;true&quot;&gt;
+    &lt;path fill-rule=&quot;evenodd&quot; clip-rule=&quot;evenodd&quot; d=&quot;M122.608 207.222V298.975C122.608 301.415 123.574 303.775 125.317 305.518L177.467 357.668C181.06 361.261 186.932 361.261 190.525 357.668L232.675 315.519C236.268 311.926 236.268 306.053 232.675 302.434L133.119 202.878C129.231 198.99 122.608 201.726 122.608 207.222Z&quot; fill=&quot;white&quot;/&gt;
+    &lt;path fill-rule=&quot;evenodd&quot; clip-rule=&quot;evenodd&quot; d=&quot;M232.675 44.8449L190.525 2.69468C186.932 -0.898228 181.06 -0.898228 177.467 2.69468L125.317 54.846C123.574 56.5889 122.608 58.922 122.608 61.362V153.115C122.608 158.584 129.231 161.346 133.119 157.459L232.675 57.9031C236.268 54.3101 236.268 48.4385 232.675 44.8187V44.8449Z&quot; fill=&quot;white&quot;/&gt;
+    &lt;path fill-rule=&quot;evenodd&quot; clip-rule=&quot;evenodd&quot; d=&quot;M307.482 126.543L151.056 174.243C145.238 176.012 145.238 184.243 151.056 186.013L307.482 233.713C310.726 234.705 314.319 233.82 316.706 231.407L361.483 186.629C365.076 183.036 365.076 177.165 361.483 173.545L316.706 128.767C314.292 126.354 310.753 125.469 307.482 126.462V126.515V126.543Z&quot; fill=&quot;white&quot;/&gt;
+    &lt;path d=&quot;M48.6878 131.481L6.52195 173.647C2.91992 177.249 2.91992 183.089 6.52195 186.691L48.6883 228.857C52.2903 232.459 58.1302 232.459 61.7322 228.857L103.898 186.691C107.5 183.089 107.5 177.249 103.898 173.647L61.7317 131.481C58.1297 127.879 52.2899 127.879 48.6878 131.481Z&quot; fill=&quot;white&quot;/&gt;&lt;/svg&gt;
+          &lt;span&gt;&lt;span class=&quot;nl-badge-label&quot;&gt;Powered by&lt;/span&gt; &lt;span class=&quot;nl-badge-brand&quot;&gt;Netlify&lt;/span&gt;&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;script&gt;
+        
+    function nlSend(){
+      var wrap=document.querySelector('.nl-wrap'),boxes=[];
+      for(var i=0;i&lt;wrap.children.length;i++){
+        var c=wrap.children[i];
+        if(!c.offsetWidth||!c.offsetHeight)continue;
+        boxes.push({x:c.offsetLeft-wrap.offsetLeft+8,
+                    y:c.offsetTop-wrap.offsetTop+8,
+                    w:c.offsetWidth,h:c.offsetHeight});
+      }
+      parent.postMessage({nlHud:'resize',
+        width:wrap.offsetWidth+26,
+        height:wrap.offsetHeight+26,
+        boxes:boxes},'*');
+    }
+    function nlSendSoon(){requestAnimationFrame(nlSend);}
+    window.addEventListener('load',nlSend);
+    window.addEventListener('message',function(e){
+      if(e.source!==parent||!e.data||e.data.nlHud!=='viewport')return;
+      var s=document.documentElement.style;
+      s.setProperty('--nl-vw',e.data.w+'px');
+      s.setProperty('--nl-vh',e.data.h+'px');
+      document.documentElement.classList.toggle('nl-narrow',e.data.w&lt;600);
+      nlSendSoon();
+    });
+    var nlCoarse=window.matchMedia('(pointer: coarse)').matches;
+    function nlSubmit(form){
+      if(form.requestSubmit)return form.requestSubmit();
+      if(form.checkValidity&amp;&amp;!form.checkValidity())
+        return form.reportValidity&amp;&amp;form.reportValidity();
+      form.submit();
+    }
+  
+        var badge=document.getElementById('nl-badge'),card=document.getElementById('nl-card'),
+            box=card.querySelector('textarea');
+        function setOpen(open){
+          card.classList.toggle('open',open);
+          badge.setAttribute('aria-expanded',open?'true':'false');
+          nlSendSoon();
+          if(open&amp;&amp;!nlCoarse)box.focus();
+        }
+        box.addEventListener('keydown',function(e){
+          if(e.key==='Enter'&amp;&amp;!e.shiftKey){e.preventDefault();nlSubmit(box.form);}
+        });
+        badge.addEventListener('click',function(){setOpen(!card.classList.contains('open'));});
+        document.getElementById('nl-card-close').addEventListener('click',function(){setOpen(false);badge.focus();});
+        document.addEventListener('keydown',function(e){
+          if(e.key==='Escape'&amp;&amp;card.classList.contains('open')){setOpen(false);badge.focus();}
+        });
+        card.addEventListener('click',function(e){
+          if(e.target.closest('#nl-hide'))parent.postMessage({nlHud:'state',value:'hidden'},'*');
+        });
+      &lt;/script&gt;
+    &lt;/body&gt;&lt;/html&gt;" style="position: fixed; bottom: 0px; right: 0px; border: 0px; margin: 0px; padding: 0px; background: transparent; color-scheme: dark; z-index: 2147483645; width: 216px; height: 92px; clip-path: path(&quot;M 0 0 Z&quot;);"></iframe><script>window.addEventListener("load",function(){setTimeout(function(){var gate=document.getElementById("loginGate"),lock=document.getElementById("lockScreen"),app=document.getElementById("appWrap"),user=document.getElementById("loggedInAs");if(gate)gate.style.display="none";if(lock)lock.style.display="none";if(app){app.style.display="block";app.removeAttribute("aria-hidden")}if(user)user.textContent="Modo demonstração"},400)})</script></body><div id="codex-browser-sidebar-comments-root" style="position: fixed; inset: 0px; pointer-events: none; z-index: 2147483647;"></div></html>
